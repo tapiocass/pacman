@@ -91,10 +91,6 @@ PacmanGame.prototype = {
     },
 
     preload: function () {
-        //  We need this because the assets are on Amazon S3
-        //  Remove the next 2 lines if running locally
-        //this.load.baseURL = 'http://files.phaser.io.s3.amazonaws.com/codingtips/issue005/';
-        //this.load.crossOrigin = 'anonymous';
 
         this.load.image('dot', 'assets/dot.png');
         this.load.image("pill", "assets/pill16.png");
@@ -103,7 +99,7 @@ PacmanGame.prototype = {
         this.load.spritesheet("ghosts", "assets/ghosts32.png", 32, 32);
         this.load.tilemap('map', 'assets/pacman-map.json', null, Phaser.Tilemap.TILED_JSON);
 
-        //  Needless to say, the beast was stoned... and the graphics are Namco (C)opyrighted
+     
     },
 
     create: function () {
@@ -119,17 +115,15 @@ PacmanGame.prototype = {
         this.pills = this.add.physicsGroup();
         this.numPills = this.map.createFromTiles(40, this.safetile, "pill", this.layer, this.pills);
 
-        //  The dots will need to be offset by 6px to put them back in the middle of the grid
+ 
         this.dots.setAll('x', 6, false, false, 1);
         this.dots.setAll('y', 6, false, false, 1);
 
-        //  Pacman should collide with everything except the safe tile
+     
         this.map.setCollisionByExclusion([this.safetile], true, this.layer);
 
-		// Our hero
         this.pacman = new Pacman(this, "pacman");
 
-        // Score and debug texts
         this.scoreText = game.add.text(8, 272, "Score: " + this.score, { fontSize: "16px", fill: "#fff" });
         this.debugText = game.add.text(375, 260, "", { fontSize: "12px", fill: "#fff" });
         this.overflowText = game.add.text(375, 280, "", { fontSize: "12px", fill: "#fff" });
@@ -137,13 +131,10 @@ PacmanGame.prototype = {
         this.cursors = this.input.keyboard.createCursorKeys();
         this.cursors["d"] = this.input.keyboard.addKey(Phaser.Keyboard.D);
         this.cursors["b"] = this.input.keyboard.addKey(Phaser.Keyboard.B);
-        
-        //this.game.time.events.add(1250, this.sendExitOrder, this);
-        //this.game.time.events.add(7000, this.sendAttackOrder, this);
+       
         
         this.changeModeTimer = this.time.time + this.TIME_MODES[this.currentMode].time;
         
-        // Ghosts
         this.blinky = new Ghost(this, "ghosts", "blinky", {x:13, y:11}, Phaser.RIGHT);
         this.pinky = new Ghost(this, "ghosts", "pinky", {x:15, y:14}, Phaser.LEFT);
         this.inky = new Ghost(this, "ghosts", "inky", {x:14, y:14}, Phaser.RIGHT);
