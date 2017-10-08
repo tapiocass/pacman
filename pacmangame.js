@@ -99,7 +99,7 @@ PacmanGame.prototype = {
         this.load.spritesheet("ghosts", "assets/ghosts32.png", 32, 32);
         this.load.tilemap('map', 'assets/pacman-map.json', null, Phaser.Tilemap.TILED_JSON);
 
-     
+       
     },
 
     create: function () {
@@ -115,13 +115,14 @@ PacmanGame.prototype = {
         this.pills = this.add.physicsGroup();
         this.numPills = this.map.createFromTiles(40, this.safetile, "pill", this.layer, this.pills);
 
- 
+      
         this.dots.setAll('x', 6, false, false, 1);
         this.dots.setAll('y', 6, false, false, 1);
 
-     
+  
         this.map.setCollisionByExclusion([this.safetile], true, this.layer);
 
+		
         this.pacman = new Pacman(this, "pacman");
 
         this.scoreText = game.add.text(8, 272, "Score: " + this.score, { fontSize: "16px", fill: "#fff" });
@@ -131,10 +132,11 @@ PacmanGame.prototype = {
         this.cursors = this.input.keyboard.createCursorKeys();
         this.cursors["d"] = this.input.keyboard.addKey(Phaser.Keyboard.D);
         this.cursors["b"] = this.input.keyboard.addKey(Phaser.Keyboard.B);
-       
+        
         
         this.changeModeTimer = this.time.time + this.TIME_MODES[this.currentMode].time;
         
+        // Ghosts
         this.blinky = new Ghost(this, "ghosts", "blinky", {x:13, y:11}, Phaser.RIGHT);
         this.pinky = new Ghost(this, "ghosts", "pinky", {x:15, y:14}, Phaser.LEFT);
         this.inky = new Ghost(this, "ghosts", "inky", {x:14, y:14}, Phaser.RIGHT);
@@ -209,12 +211,12 @@ PacmanGame.prototype = {
     update: function () {
         this.scoreText.text = "Score: " + this.score;
         if (this.DEBUG_ON) {
-            this.debugText.text = "Debug ON";
+            this.debugText.text = "";
         } else {
             this.debugText.text = "";
         }
         if (this.ORIGINAL_OVERFLOW_ERROR_ON) {
-            this.overflowText.text = "Overflow ON";
+            this.overflowText.text = "";
         } else {
             this.overflowText.text = "";
         }
