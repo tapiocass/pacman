@@ -156,6 +156,7 @@ Pacman.prototype.comeFruto = function(pacman, dot) {
 };
 
 Pacman.prototype.comePilula = function(pacman, pill) {
+    this.game.munchPillSong.play('', 0, 1, false);
     pill.kill();
     
     this.game.pontuacao ++;
