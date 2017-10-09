@@ -138,7 +138,12 @@ Pacman.prototype.movimentaPacman = function(cursors) {
 };
 
 Pacman.prototype.comeFruto = function(pacman, dot) {
-    this.game.munchSong.play('', 0, 1, false);
+
+    if (!this.game.munchSong.isPlaying) {
+        this.game.munchSong.play('', 0, 1, false);
+
+    }
+
     dot.kill();
 
     this.game.pontuacao ++;
