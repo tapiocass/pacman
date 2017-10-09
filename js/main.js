@@ -1,24 +1,34 @@
 var game = new Phaser.Game(448, 496, Phaser.AUTO, "game");
 
-var PacmanGame = function (game) {
+var mainPacman = function (game) {
     this.map = null;
     this.layer = null;
-    
-    this.numDots = 0;
-    this.TOTAL_DOTS = 0;
-    this.score = 0;
-    this.scoreText = null;
-    
-    this.pacman = null; 
+
+    this.fruto = 0;
+
+    this.pontuacao = 0;
+    this.pontuacaoText = null;
+
+    this.pacman = null;
 
     this.safetile = 14;
-    this.gridsize = 16;       
-    this.threshold = 3;
+    this.tamanhomaze = 16;
+    this.limite= 3;
 
     this.game = game;
 };
 
-PacmanGame.prototype = {
+mainPacman.prototype = {
+
+    init: function () {
+        this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+        this.scale.pageAlignHorizontally = true;
+        this.scale.pageAlignVertically = true;
+
+        Phaser.Canvas.setImageRenderingCrisp(this.game.canvas);
+
+        this.physics.startSystem(Phaser.Physics.ARCADE);
+    },
 
     preload: function () {
 
@@ -40,41 +50,40 @@ PacmanGame.prototype = {
 
         this.layer = this.map.createLayer('Pacman');
 
-        this.dots = this.add.physicsGroup();
-        this.numDots = this.map.createFromTiles(7, this.safetile, 'dot', this.layer, this.dots);
-        this.TOTAL_DOTS = this.numDots;
+        this.frutos = this.add.physicsGroup();
+        this.fruto = this.map.createFromTiles(7, 14, 'dot', this.layer, this.frutos);
 
-        this.pills = this.add.physicsGroup();
-        this.numPills = this.map.createFromTiles(40, this.safetile, "pill", this.layer, this.pills);
+        this.pilulas = this.add.physicsGroup();
+        this.numpilulas = this.map.createFromTiles(40, 14, "pill", this.layer, this.pilulas);
 
-        this.dots.setAll('x', 6, false, false, 1);
-        this.dots.setAll('y', 6, false, false, 1);
+        this.frutos.setAll('x', 6, false, false, 1);
+        this.frutos.setAll('y', 6, false, false, 1);
 
         this.map.setCollisionByExclusion([this.safetile], true, this.layer);
 
         this.munchSong = this.add.audio('munch');
         this.pacman = new Pacman(this, "pacman");
-        this.music=this.add.audio('song');
+        this.music = this.add.audio('song');
         this.music.play();
 
-        this.scoreText = game.add.text(8, 272, "Score: " + this.score, { fontSize: "16px", fill: "#fff" });
+        this.pontuacaoText = game.add.text(4, 272, "Score: " + this.pontuacao, { fontSize: "14px", fill: "#fff" });
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
     },
 
-    checkKeys: function () {
-        this.pacman.checkKeys(this.cursors);
+    movimentaPacman: function () {
+        this.pacman.movimentaPacman(this.cursors);
 
     },
 
     update: function () {
-        this.scoreText.text = "Score: " + this.score;
+        this.pontuacaoText.text = "Score: " + this.pontuacao;
 
         this.pacman.update();
 
-        this.checkKeys();
+        this.movimentaPacman();
     }
 };
 
-game.state.add('Game', PacmanGame, true);
+game.state.add('Game', mainPacman, true);

@@ -2,24 +2,23 @@ var Pacman = function(game, key) {
     this.game = game;
     this.key = key;
 
-
-    this.speed = 150;
+    this.forca = 170;
 
     this.keyPressTimer = 0;
     
-    this.gridsize = this.game.gridsize;
+    this.tamanhomaze = this.game.tamanhomaze;
     this.safetile = this.game.safetile;
 
     this.marker = new Phaser.Point();
     this.turnPoint = new Phaser.Point();
-    this.threshold = 6;
+    this.limite = 6;
 
-    this.directions = [ null, null, null, null, null ];
+    this.direcao = [ null, null, null, null, null ];
     this.opposites = [ Phaser.NONE, Phaser.RIGHT, Phaser.LEFT, Phaser.DOWN, Phaser.UP ];
 
     this.current = Phaser.NONE;
     this.turning = Phaser.NONE;
-    this.want2go = Phaser.NONE;
+    this.posicao = Phaser.NONE;
     
     this.keyPressTimer = 0;
     this.KEY_COOLING_DOWN_TIME = 750;
@@ -37,54 +36,54 @@ var Pacman = function(game, key) {
 
 };
 
-Pacman.prototype.move = function(direction) {
-    if (direction === Phaser.NONE) {
+Pacman.prototype.move = function(direcao) {
+    if (direcao === Phaser.NONE) {
         this.sprite.body.velocity.x = this.sprite.body.velocity.y = 0;
         return;
     }
     
-    var speed = this.speed;
+    var forca = this.forca;
 
-    if (direction === Phaser.LEFT || direction === Phaser.UP)
+    if (direcao === Phaser.LEFT || direcao === Phaser.UP)
     {
-        speed = -speed;
+        forca = -forca;
     }
 
-    if (direction === Phaser.LEFT || direction === Phaser.RIGHT)
+    if (direcao === Phaser.LEFT || direcao === Phaser.RIGHT)
     {
-        this.sprite.body.velocity.x = speed;
+        this.sprite.body.velocity.x = forca;
     }
     else
     {
-        this.sprite.body.velocity.y = speed;
+        this.sprite.body.velocity.y = forca;
     }
 
     this.sprite.scale.x = 1;
     this.sprite.angle = 0;
 
-    if (direction === Phaser.LEFT)
+    if (direcao === Phaser.LEFT)
     {
         this.sprite.scale.x = -1;
     }
-    else if (direction === Phaser.UP)
+    else if (direcao === Phaser.UP)
     {
         this.sprite.angle = 270;
     }
-    else if (direction === Phaser.DOWN)
+    else if (direcao === Phaser.DOWN)
     {
         this.sprite.angle = 90;
     }
 
-    this.current = direction;
+    this.current = direcao;
 };
 
 Pacman.prototype.update = function() {
     this.game.physics.arcade.collide(this.sprite, this.game.layer);
-    this.game.physics.arcade.overlap(this.sprite, this.game.dots, this.eatDot, null, this);
-    this.game.physics.arcade.overlap(this.sprite, this.game.pills, this.eatPill, null, this);
+    this.game.physics.arcade.overlap(this.sprite, this.game.frutos, this.comeFruto, null, this);
+    this.game.physics.arcade.overlap(this.sprite, this.game.pilulas, this.comePilula, null, this);
 
-    this.marker.x = this.game.math.snapToFloor(Math.floor(this.sprite.x), this.gridsize) / this.gridsize;
-    this.marker.y = this.game.math.snapToFloor(Math.floor(this.sprite.y), this.gridsize) / this.gridsize;
+    this.marker.x = this.game.math.snapToFloor(Math.floor(this.sprite.x), this.tamanhomaze) / this.tamanhomaze;
+    this.marker.y = this.game.math.snapToFloor(Math.floor(this.sprite.y), this.tamanhomaze) / this.tamanhomaze;
 
     if (this.marker.x < 0) {
         this.sprite.x = this.game.map.widthInPixels - 1;
@@ -94,10 +93,10 @@ Pacman.prototype.update = function() {
     }
 
 
-    this.directions[1] = this.game.map.getTileLeft(this.game.layer.index, this.marker.x, this.marker.y);
-    this.directions[2] = this.game.map.getTileRight(this.game.layer.index, this.marker.x, this.marker.y);
-    this.directions[3] = this.game.map.getTileAbove(this.game.layer.index, this.marker.x, this.marker.y);
-    this.directions[4] = this.game.map.getTileBelow(this.game.layer.index, this.marker.x, this.marker.y);
+    this.direcao[1] = this.game.map.getTileLeft(this.game.layer.index , this.marker.x, this.marker.y);
+    this.direcao[2] = this.game.map.getTileRight(this.game.layer.index, this.marker.x, this.marker.y);
+    this.direcao[3] = this.game.map.getTileAbove(this.game.layer.index, this.marker.x, this.marker.y);
+    this.direcao[4] = this.game.map.getTileBelow(this.game.layer.index, this.marker.x, this.marker.y);
 
     if (this.turning !== Phaser.NONE)
     {
@@ -105,60 +104,57 @@ Pacman.prototype.update = function() {
     }
 };
 
-Pacman.prototype.checkKeys = function(cursors) {
-    if (cursors.left.isDown ||
-        cursors.right.isDown ||
-        cursors.up.isDown ||
-        cursors.down.isDown) {
+Pacman.prototype.movimentaPacman = function(cursors) {
+    if (cursors.left.isDown || cursors.right.isDown || cursors.up.isDown || cursors.down.isDown) {
         this.keyPressTimer = this.game.time.time + this.KEY_COOLING_DOWN_TIME;
     }
 
     if (cursors.left.isDown && this.current !== Phaser.LEFT)
     {
-        this.want2go = Phaser.LEFT;
+        this.posicao = Phaser.LEFT;
     }
     else if (cursors.right.isDown && this.current !== Phaser.RIGHT)
     {
-        this.want2go = Phaser.RIGHT;
+        this.posicao = Phaser.RIGHT;
     }
     else if (cursors.up.isDown && this.current !== Phaser.UP)
     {
-        this.want2go = Phaser.UP;
+        this.posicao = Phaser.UP;
     }
     else if (cursors.down.isDown && this.current !== Phaser.DOWN)
     {
-        this.want2go = Phaser.DOWN;
+        this.posicao = Phaser.DOWN;
     }
 
     if (this.game.time.time > this.keyPressTimer)
     {
 
         this.turning = Phaser.NONE;
-        this.want2go = Phaser.NONE;
+        this.posicao = Phaser.NONE;
 
     } else {
-        this.checkDirection(this.want2go);    
+        this.verificaDirecao(this.posicao);
     }
 };
 
-Pacman.prototype.eatDot = function(pacman, dot) {
+Pacman.prototype.comeFruto = function(pacman, dot) {
     this.game.munchSong.play('', 0, 1, false);
     dot.kill();
-    
-    this.game.score ++;
-    this.game.numDots --;
 
-    if (this.game.dots.total === 0)
+    this.game.pontuacao ++;
+    this.game.fruto --;
+
+    if (this.game.frutos.total === 0)
     {
-        this.game.dots.callAll('revive');
+        this.game.frutos.callAll('revive');
     }
 };
 
-Pacman.prototype.eatPill = function(pacman, pill) {
+Pacman.prototype.comePilula = function(pacman, pill) {
     pill.kill();
     
-    this.game.score ++;
-    this.game.numPills --;
+    this.game.pontuacao ++;
+    this.game.numpilulas--;
 
 };
 
@@ -166,7 +162,7 @@ Pacman.prototype.turn = function () {
     var cx = Math.floor(this.sprite.x);
     var cy = Math.floor(this.sprite.y);
 
-    if (!this.game.math.fuzzyEqual(cx, this.turnPoint.x, this.threshold) || !this.game.math.fuzzyEqual(cy, this.turnPoint.y, this.threshold))
+    if (!this.game.math.fuzzyEqual(cx, this.turnPoint.x, this.limite) || !this.game.math.fuzzyEqual(cy, this.turnPoint.y, this.limite))
     {
         return false;
     }
@@ -181,10 +177,9 @@ Pacman.prototype.turn = function () {
     return true;
 };
 
-Pacman.prototype.checkDirection = function (turnTo) {
-    if (this.turning === turnTo || this.directions[turnTo] === null || this.directions[turnTo].index !== this.safetile)
+Pacman.prototype.verificaDirecao = function (turnTo) {
+    if (this.turning === turnTo || this.direcao[turnTo] === null || this.direcao[turnTo].index !== this.safetile)
     {
-
         return;
     }
 
@@ -198,16 +193,8 @@ Pacman.prototype.checkDirection = function (turnTo) {
     {
         this.turning = turnTo;
 
-        this.turnPoint.x = (this.marker.x * this.gridsize) + (this.gridsize / 2);
-        this.turnPoint.y = (this.marker.y * this.gridsize) + (this.gridsize / 2);
-        this.want2go = Phaser.NONE;
+        this.turnPoint.x = (this.marker.x * this.tamanhomaze) + (this.tamanhomaze / 2);
+        this.turnPoint.y = (this.marker.y * this.tamanhomaze) + (this.tamanhomaze / 2);
+        this.posicao = Phaser.NONE;
     }
-};
-
-Pacman.prototype.getPosition = function () {
-    return new Phaser.Point((this.marker.x * this.gridsize) + (this.gridsize / 2), (this.marker.y * this.gridsize) + (this.gridsize / 2));
-};
-
-Pacman.prototype.getCurrentDirection = function() {
-    return this.current;
 };

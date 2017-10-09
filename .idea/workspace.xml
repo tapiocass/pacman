@@ -24,21 +24,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="style.css" pinned="false" current-in-tab="true">
+      <file leaf-file-name="style.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="17" lean-forward="false" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+            <state relative-caret-position="119">
+              <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pacman.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="pacman.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/pacman.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2397">
-              <caret line="0" column="26" lean-forward="true" selection-start-line="0" selection-start-column="26" selection-end-line="0" selection-end-column="26" />
+            <state relative-caret-position="-872">
+              <caret line="39" column="34" lean-forward="true" selection-start-line="39" selection-start-column="34" selection-end-line="39" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -47,8 +47,8 @@
       <file leaf-file-name="main.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state relative-caret-position="279">
+              <caret line="77" column="6" lean-forward="true" selection-start-line="77" selection-start-column="6" selection-end-line="77" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -68,10 +68,60 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>check</find>
       <find>ghosts</find>
       <find>upda</find>
+      <find>score</find>
+      <find>index</find>
+      <find>this.scoreText</find>
+      <find>current</find>
+      <find>this.directions</find>
+      <find>this.opposites</find>
+      <find>opposites</find>
+      <find>speed</find>
+      <find>want2go</find>
+      <find>TOTAL_DOTS</find>
+      <find>this.keyPressTimer</find>
+      <find>numDots</find>
+      <find>numPills</find>
+      <find>safetile</find>
+      <find>grid</find>
+      <find>threshold</find>
+      <find>gridsize</find>
+      <find>this.threshold</find>
+      <find>this.threshold</find>
+      <find>PacmanGame</find>
+      <find>eatPill</find>
+      <find>kill</find>
+      <find>this.dots</find>
+      <find>dots</find>
+      <find>pills</find>
+      <find>checkKeys</find>
+      <find>checkDirection</find>
+      <find>direction</find>
     </findStrings>
+    <replaceStrings>
+      <replace>this.pontuacao</replace>
+      <replace>this.pontuacaoText</replace>
+      <replace>this.direcao</replace>
+      <replace>forca</replace>
+      <replace>posicao</replace>
+      <replace>qntPonto</replace>
+      <replace>fruta</replace>
+      <replace>qntFruta</replace>
+      <replace>fruto</replace>
+      <replace>pilula</replace>
+      <replace>this.tamanhomaze</replace>
+      <replace>tamanhomaze</replace>
+      <replace>this.limite</replace>
+      <replace>mainPacman</replace>
+      <replace>comePilula</replace>
+      <replace>this.frutos</replace>
+      <replace>frutos</replace>
+      <replace>pilulas</replace>
+      <replace>movimentaPacman</replace>
+      <replace>verificaDirecao</replace>
+      <replace>direcao</replace>
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -83,9 +133,9 @@
         <option value="$PROJECT_DIR$/Pacman.js" />
         <option value="$PROJECT_DIR$/pacmangame.js" />
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/js/pacman.js" />
-        <option value="$PROJECT_DIR$/js/main.js" />
         <option value="$PROJECT_DIR$/css/style.css" />
+        <option value="$PROJECT_DIR$/js/main.js" />
+        <option value="$PROJECT_DIR$/js/pacman.js" />
       </list>
     </option>
   </component>
@@ -200,11 +250,10 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5679000" />
+    <option name="totallyTimeSpent" value="11780000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17569546" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -321,14 +370,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/pacman.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="562">
@@ -358,26 +399,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/pacman.js">
+    <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2397">
-          <caret line="0" column="26" lean-forward="true" selection-start-line="0" selection-start-column="26" selection-end-line="0" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="21" column="0" lean-forward="false" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" column="17" lean-forward="false" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+        <state relative-caret-position="119">
+          <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="77" column="6" lean-forward="true" selection-start-line="77" selection-start-column="6" selection-end-line="77" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/pacman.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-872">
+          <caret line="39" column="34" lean-forward="true" selection-start-line="39" selection-start-column="34" selection-end-line="39" selection-end-column="34" />
           <folding />
         </state>
       </provider>
