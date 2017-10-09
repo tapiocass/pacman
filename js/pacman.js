@@ -4,8 +4,7 @@ var Pacman = function(game, key) {
 
 
     this.speed = 150;
-    this.isDead = false;
-    this.isAnimatingDeath = false;
+
     this.keyPressTimer = 0;
     
     this.gridsize = this.game.gridsize;
@@ -24,8 +23,7 @@ var Pacman = function(game, key) {
     
     this.keyPressTimer = 0;
     this.KEY_COOLING_DOWN_TIME = 750;
-    
-    //  Position Pacman at grid location 14x17 (the +8 accounts for his anchor)
+
     this.sprite = this.game.add.sprite((14 * 16) + 8, (17 * 16) + 8, key, 0);
     this.sprite.anchor.setTo(0.5);
     this.sprite.animations.add('munch', [0, 1, 2, 1], 20, true);
@@ -61,7 +59,6 @@ Pacman.prototype.move = function(direction) {
         this.sprite.body.velocity.y = speed;
     }
 
-    //  Reset the scale and angle (Pacman is facing to the right the sprite sheet)
     this.sprite.scale.x = 1;
     this.sprite.angle = 0;
 
@@ -82,37 +79,29 @@ Pacman.prototype.move = function(direction) {
 };
 
 Pacman.prototype.update = function() {
-    if (!this.isDead) {
-        this.game.physics.arcade.collide(this.sprite, this.game.layer);
-        this.game.physics.arcade.overlap(this.sprite, this.game.dots, this.eatDot, null, this);
-        this.game.physics.arcade.overlap(this.sprite, this.game.pills, this.eatPill, null, this);
+    this.game.physics.arcade.collide(this.sprite, this.game.layer);
+    this.game.physics.arcade.overlap(this.sprite, this.game.dots, this.eatDot, null, this);
+    this.game.physics.arcade.overlap(this.sprite, this.game.pills, this.eatPill, null, this);
 
-        this.marker.x = this.game.math.snapToFloor(Math.floor(this.sprite.x), this.gridsize) / this.gridsize;
-        this.marker.y = this.game.math.snapToFloor(Math.floor(this.sprite.y), this.gridsize) / this.gridsize;
+    this.marker.x = this.game.math.snapToFloor(Math.floor(this.sprite.x), this.gridsize) / this.gridsize;
+    this.marker.y = this.game.math.snapToFloor(Math.floor(this.sprite.y), this.gridsize) / this.gridsize;
 
-        if (this.marker.x < 0) {
-            this.sprite.x = this.game.map.widthInPixels - 1;
-        }
-        if (this.marker.x >= this.game.map.width) {
-            this.sprite.x = 1;
-        }
+    if (this.marker.x < 0) {
+        this.sprite.x = this.game.map.widthInPixels - 1;
+    }
+    if (this.marker.x >= this.game.map.width) {
+        this.sprite.x = 1;
+    }
 
-        //  Update our grid sensors
-        this.directions[1] = this.game.map.getTileLeft(this.game.layer.index, this.marker.x, this.marker.y);
-        this.directions[2] = this.game.map.getTileRight(this.game.layer.index, this.marker.x, this.marker.y);
-        this.directions[3] = this.game.map.getTileAbove(this.game.layer.index, this.marker.x, this.marker.y);
-        this.directions[4] = this.game.map.getTileBelow(this.game.layer.index, this.marker.x, this.marker.y);
 
-        if (this.turning !== Phaser.NONE)
-        {
-            this.turn();
-        }
-    } else {
-        this.move(Phaser.NONE);
-        if (!this.isAnimatingDeath) {
-            this.sprite.play("death");
-            this.isAnimatingDeath = true;
-        }
+    this.directions[1] = this.game.map.getTileLeft(this.game.layer.index, this.marker.x, this.marker.y);
+    this.directions[2] = this.game.map.getTileRight(this.game.layer.index, this.marker.x, this.marker.y);
+    this.directions[3] = this.game.map.getTileAbove(this.game.layer.index, this.marker.x, this.marker.y);
+    this.directions[4] = this.game.map.getTileBelow(this.game.layer.index, this.marker.x, this.marker.y);
+
+    if (this.turning !== Phaser.NONE)
+    {
+        this.turn();
     }
 };
 
@@ -143,9 +132,10 @@ Pacman.prototype.checkKeys = function(cursors) {
 
     if (this.game.time.time > this.keyPressTimer)
     {
-        //  This forces them to hold the key down to turn the corner
+
         this.turning = Phaser.NONE;
         this.want2go = Phaser.NONE;
+
     } else {
         this.checkDirection(this.want2go);    
     }
@@ -169,21 +159,18 @@ Pacman.prototype.eatPill = function(pacman, pill) {
     
     this.game.score ++;
     this.game.numPills --;
-    
-    this.game.enterFrightenedMode();
+
 };
 
 Pacman.prototype.turn = function () {
     var cx = Math.floor(this.sprite.x);
     var cy = Math.floor(this.sprite.y);
 
-    //  This needs a threshold, because at high speeds you can't turn because the coordinates skip past
     if (!this.game.math.fuzzyEqual(cx, this.turnPoint.x, this.threshold) || !this.game.math.fuzzyEqual(cy, this.turnPoint.y, this.threshold))
     {
         return false;
     }
 
-    //  Grid align before turning
     this.sprite.x = this.turnPoint.x;
     this.sprite.y = this.turnPoint.y;
 
@@ -197,12 +184,11 @@ Pacman.prototype.turn = function () {
 Pacman.prototype.checkDirection = function (turnTo) {
     if (this.turning === turnTo || this.directions[turnTo] === null || this.directions[turnTo].index !== this.safetile)
     {
-        //  Invalid direction if they're already set to turn that way
-        //  Or there is no tile there, or the tile isn't index 1 (a floor tile)
+
         return;
     }
 
-    //  Check if they want to turn around and can
+
     if (this.current === this.opposites[turnTo])
     {
         this.move(turnTo);
