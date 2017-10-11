@@ -41,6 +41,8 @@ mainPacman.prototype = {
 
         this.load.audio('song', ['assets/sounds/pacman_beginning.wav']);
         this.load.audio('munch', ['assets/sounds/pacman-munch.wav']);
+        this.load.audio('munchPill', ['assets/sounds/pacman_eatfruit.wav']);
+
 
     },
 
@@ -61,6 +63,7 @@ mainPacman.prototype = {
 
         this.map.setCollisionByExclusion([this.safetile], true, this.layer);
 
+        this.munchPillSong = this.add.audio('munchPill');
         this.munchSong = this.add.audio('munch');
         this.pacman = new Pacman(this, "pacman");
         this.music = this.add.audio('song');
