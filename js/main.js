@@ -1,4 +1,4 @@
-var game = new Phaser.Game(448, 496, Phaser.AUTO, "game");
+var game = new Phaser.Game(550, 600, Phaser.AUTO, "game");
 
 var mainPacman = function (game) {
     this.map = null;
@@ -8,12 +8,14 @@ var mainPacman = function (game) {
 
     this.pontuacao = 0;
     this.pontuacaoText = null;
+    this.recordText = null;
 
     this.pacman = null;
 
     this.safetile = 14;
     this.tamanhomaze = 16;
     this.limite= 3;
+    this.timer = 0;
 
     this.game = game;
 };
@@ -21,6 +23,7 @@ var mainPacman = function (game) {
 mainPacman.prototype = {
 
     init: function () {
+
         this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.scale.pageAlignHorizontally = true;
         this.scale.pageAlignVertically = true;
@@ -31,6 +34,7 @@ mainPacman.prototype = {
     },
 
     preload: function () {
+
 
         this.load.image('dot', 'assets/sprites/dot.png');
         this.load.image("pill", "assets/sprites/pill16.png");
@@ -47,16 +51,28 @@ mainPacman.prototype = {
     },
 
     create: function () {
+
+
         this.map = this.add.tilemap('map');
         this.map.addTilesetImage('pacman-tiles', 'tiles');
 
         this.layer = this.map.createLayer('Pacman');
 
+        //Textos
+        this.up = game.add.text(30, 0, "1 UP", { fontSize: "18px", fill: "#fff"});
+        this.pontuacaoText = game.add.text(35, 20, this.pontuacao, { fontSize: "18px", fill: "#fff"});
+        this.recordLabel = game.add.text(170, 0, "HIGH SCORES", { fontSize: "18px", fill: "#fff"});
+        this.recordText = game.add.text(220, 20, this.pontuacao, { fontSize: "18px", fill: "#fff"});
+
         this.frutos = this.add.physicsGroup();
         this.fruto = this.map.createFromTiles(7, 14, 'dot', this.layer, this.frutos);
 
+
         this.pilulas = this.add.physicsGroup();
+
         this.numpilulas = this.map.createFromTiles(40, 14, "pill", this.layer, this.pilulas);
+
+
 
         this.frutos.setAll('x', 6, false, false, 1);
         this.frutos.setAll('y', 6, false, false, 1);
@@ -69,8 +85,6 @@ mainPacman.prototype = {
         this.music = this.add.audio('song');
         this.music.play();
 
-        this.pontuacaoText = game.add.text(4, 272, "Score: " + this.pontuacao, { fontSize: "14px", fill: "#fff" });
-
         this.cursors = this.input.keyboard.createCursorKeys();
 
     },
@@ -81,7 +95,14 @@ mainPacman.prototype = {
     },
 
     update: function () {
-        this.pontuacaoText.text = "Score: " + this.pontuacao;
+
+        this.pontuacaoText.text = this.pontuacao;
+        this.recordText.text = this.pontuacao;
+        this.timer += game.time.elapsed;
+
+        if ( this.timer >= 200 ) {
+            this.timer -= 200;
+        this.up.visible = !this.up.visible;}
 
         this.pacman.update();
 
