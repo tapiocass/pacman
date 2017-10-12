@@ -2,7 +2,7 @@ var Pacman = function(game, key) {
     this.game = game;
     this.key = key;
 
-    this.forca = 170;
+    this.forca = 150;
 
     this.keyPressTimer = 0;
     
@@ -23,7 +23,7 @@ var Pacman = function(game, key) {
     this.keyPressTimer = 0;
     this.KEY_COOLING_DOWN_TIME = 750;
 
-    this.sprite = this.game.add.sprite((14 * 16) + 3, (17 * 18) + 8, key, 0);
+    this.sprite = this.game.add.sprite((14 * 16) + 3, (17 * 20) + 8, key, 0);
     this.sprite.anchor.setTo(0.5);
     this.sprite.animations.add('munch', [0, 1, 2, 1], 20, true);
     this.sprite.animations.add("death", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], 10, false);
@@ -146,7 +146,7 @@ Pacman.prototype.comeFruto = function(pacman, dot) {
 
     dot.kill();
 
-    this.game.pontuacao ++;
+    this.game.pontuacao +=10;
     this.game.fruto --;
 
     if (this.game.frutos.total === 0)
@@ -159,7 +159,7 @@ Pacman.prototype.comePilula = function(pacman, pill) {
     this.game.munchPillSong.play('', 0, 1, false);
     pill.kill();
     
-    this.game.pontuacao ++;
+    this.game.pontuacao +=50;
     this.game.numpilulas--;
 
 };
