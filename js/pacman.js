@@ -2,7 +2,7 @@ var Pacman = function(game, key) {
     this.game = game;
     this.key = key;
 
-    this.forca = 150;
+    this.forca = 160;
 
     this.keyPressTimer = 0;
     
@@ -88,14 +88,17 @@ Pacman.prototype.update = function() {
     if (this.marker.x < 0) {
         this.sprite.x = this.game.map.widthInPixels - 1;
     }
+
     if (this.marker.x >= this.game.map.width) {
         this.sprite.x = 1;
     }
 
+    this.direcao[1] = this.game.map.getTileLeft(this.game.layer.index, this.marker.x, this.marker.y);
 
-    this.direcao[1] = this.game.map.getTileLeft(this.game.layer.index , this.marker.x, this.marker.y);
     this.direcao[2] = this.game.map.getTileRight(this.game.layer.index, this.marker.x, this.marker.y);
+
     this.direcao[3] = this.game.map.getTileAbove(this.game.layer.index, this.marker.x, this.marker.y);
+
     this.direcao[4] = this.game.map.getTileBelow(this.game.layer.index, this.marker.x, this.marker.y);
 
     if (this.turning !== Phaser.NONE)
@@ -126,13 +129,14 @@ Pacman.prototype.movimentaPacman = function(cursors) {
         this.posicao = Phaser.DOWN;
     }
 
-    if (this.game.time.time > this.keyPressTimer)
+    if (this.game.time.time > this.keyPressTimer || (this.sprite.y === 280 && this.sprite.x < 103 ) || (this.sprite.y === 280 && this.sprite.x > 402 ) )
     {
 
         this.turning = Phaser.NONE;
         this.posicao = Phaser.NONE;
 
     } else {
+
         this.verificaDirecao(this.posicao);
     }
 };
@@ -159,7 +163,7 @@ Pacman.prototype.comePilula = function(pacman, pill) {
     this.game.munchPillSong.play('', 0, 1, false);
     pill.kill();
     
-    this.game.pontuacao +=50;
+    this.game.pontuacao += 50;
     this.game.numpilulas--;
 
 };
@@ -184,6 +188,7 @@ Pacman.prototype.turn = function () {
 };
 
 Pacman.prototype.verificaDirecao = function (turnTo) {
+
     if (this.turning === turnTo || this.direcao[turnTo] === null || this.direcao[turnTo].index !== this.safetile)
     {
         return;
