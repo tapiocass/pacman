@@ -6,7 +6,7 @@ var Pacman = function(game, key) {
     this.isDead = false;
     this.isAnimatingDeath = false;
     this.keyPressTimer = 0;
-    
+
     this.tamanhomaze = this.game.tamanhomaze;
     this.safetile = this.game.safetile;
 
@@ -20,7 +20,7 @@ var Pacman = function(game, key) {
     this.current = Phaser.NONE;
     this.turning = Phaser.NONE;
     this.posicao = Phaser.NONE;
-    
+
     this.keyPressTimer = 0;
     this.KEY_COOLING_DOWN_TIME = 750;
 
@@ -28,10 +28,10 @@ var Pacman = function(game, key) {
     this.sprite.anchor.setTo(0.5);
     this.sprite.animations.add('munch', [0, 1, 2, 1], 20, true);
     this.sprite.animations.add("death", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], 10, false);
-    
+
     this.game.physics.arcade.enable(this.sprite);
     this.sprite.body.setSize(16, 16, 0, 0);
-    
+
     this.sprite.play('munch');
     this.move(Phaser.STOP);
 
@@ -42,7 +42,7 @@ Pacman.prototype.move = function(direcao) {
         this.sprite.body.velocity.x = this.sprite.body.velocity.y = 0;
         return;
     }
-    
+
     var forca = this.forca;
 
     if (direcao === Phaser.LEFT || direcao === Phaser.UP)
@@ -79,33 +79,45 @@ Pacman.prototype.move = function(direcao) {
 };
 
 Pacman.prototype.update = function() {
-    this.game.physics.arcade.collide(this.sprite, this.game.layer);
-    this.game.physics.arcade.overlap(this.sprite, this.game.frutos, this.comeFruto, null, this);
-    this.game.physics.arcade.overlap(this.sprite, this.game.pilulas, this.comePilula, null, this);
 
-    this.marker.x = this.game.math.snapToFloor(Math.floor(this.sprite.x), this.tamanhomaze) / this.tamanhomaze;
-    this.marker.y = this.game.math.snapToFloor(Math.floor(this.sprite.y), this.tamanhomaze) / this.tamanhomaze;
+    if (!this.isDead) {
 
-    if (this.marker.x < 0) {
-        this.sprite.x = this.game.map.widthInPixels - 1;
+        this.game.physics.arcade.collide(this.sprite, this.game.layer);
+        this.game.physics.arcade.overlap(this.sprite, this.game.frutos, this.comeFruto, null, this);
+        this.game.physics.arcade.overlap(this.sprite, this.game.pilulas, this.comePilula, null, this);
+
+        this.marker.x = this.game.math.snapToFloor(Math.floor(this.sprite.x), this.tamanhomaze) / this.tamanhomaze;
+        this.marker.y = this.game.math.snapToFloor(Math.floor(this.sprite.y), this.tamanhomaze) / this.tamanhomaze;
+
+        if (this.marker.x < 0) {
+            this.sprite.x = this.game.map.widthInPixels - 1;
+        }
+
+        if (this.marker.x >= this.game.map.width) {
+            this.sprite.x = 1;
+        }
+
+        this.direcao[1] = this.game.map.getTileLeft(this.game.layer.index, this.marker.x, this.marker.y);
+
+        this.direcao[2] = this.game.map.getTileRight(this.game.layer.index, this.marker.x, this.marker.y);
+
+        this.direcao[3] = this.game.map.getTileAbove(this.game.layer.index, this.marker.x, this.marker.y);
+
+        this.direcao[4] = this.game.map.getTileBelow(this.game.layer.index, this.marker.x, this.marker.y);
+
+        if (this.turning !== Phaser.NONE)
+        {
+            this.turn();
+        }
+    } else {
+        this.move(Phaser.NONE);
+        if (!this.isAnimatingDeath) {
+            this.sprite.play("death");
+            this.isAnimatingDeath = true;
+        }
     }
 
-    if (this.marker.x >= this.game.map.width) {
-        this.sprite.x = 1;
-    }
 
-    this.direcao[1] = this.game.map.getTileLeft(this.game.layer.index, this.marker.x, this.marker.y);
-
-    this.direcao[2] = this.game.map.getTileRight(this.game.layer.index, this.marker.x, this.marker.y);
-
-    this.direcao[3] = this.game.map.getTileAbove(this.game.layer.index, this.marker.x, this.marker.y);
-
-    this.direcao[4] = this.game.map.getTileBelow(this.game.layer.index, this.marker.x, this.marker.y);
-
-    if (this.turning !== Phaser.NONE)
-    {
-        this.turn();
-    }
 };
 
 Pacman.prototype.movimentaPacman = function(cursors) {
@@ -163,7 +175,7 @@ Pacman.prototype.comeFruto = function(pacman, dot) {
 Pacman.prototype.comePilula = function(pacman, pill) {
     this.game.munchPillSong.play('', 0, 1, false);
     pill.kill();
-    
+
     this.game.pontuacao += 50;
     this.game.numpilulas--;
 
