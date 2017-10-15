@@ -388,7 +388,7 @@ Ghost.prototype = {
             this.ghost.animations.play(dir+20);
         } else {
             this.ghost.animations.play(dir);
-            if (this.name === "blinky" && this.game.fruto < 20) {
+            if (this.name === "blinky" && this.game.numDots < 20) {
                 speed = this.cruiseElroySpeed;
                 this.mode = this.CHASE;
             }
