@@ -3,7 +3,8 @@ var Pacman = function(game, key) {
     this.key = key;
 
     this.forca = 160;
-
+    this.isDead = false;
+    this.isAnimatingDeath = false;
     this.keyPressTimer = 0;
     
     this.tamanhomaze = this.game.tamanhomaze;
