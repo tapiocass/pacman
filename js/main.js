@@ -132,12 +132,14 @@ mainPacman.prototype = {
         this.music = this.add.audio('song');
         this.music.play();
 
-        this.pinky = new Ghost(this, "ghosts", "pinky", {x:15, y:14}, Phaser.LEFT);
-        this.clyde = new Ghost(this, "ghosts", "clyde", {x:17, y:17}, Phaser.LEFT);
-        this.blinky = new Ghost(this, "ghosts", "blinky", {x:15, y:14}, Phaser.RIGHT);
-        this.inky = new Ghost(this, "ghosts", "inky", {x:15, y:17}, Phaser.LEFT);
+        this.changeModeTimer = this.time.time + this.TIME_MODES[this.currentMode].time;
 
-        this.ghosts.push(this.blinky, this.inky, this.pinky, this.clyde);
+        //this.pinky = new Ghost(this, "ghosts", "pinky", {x:15, y:14}, Phaser.LEFT);
+        //this.clyde = new Ghost(this, "ghosts", "clyde", {x:17, y:17}, Phaser.LEFT);
+        this.blinky = new Ghost(this, "ghosts", "blinky", {x:15, y:14}, Phaser.RIGHT);
+        //this.inky = new Ghost(this, "ghosts", "inky", {x:15, y:17}, Phaser.LEFT);
+
+        this.ghosts.push(this.blinky);
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -220,6 +222,7 @@ mainPacman.prototype = {
                 }
                 console.log("new mode:", this.TIME_MODES[this.currentMode].mode, this.TIME_MODES[this.currentMode].time);
             }
+
             if (this.isPaused && this.changeModeTimer < this.time.time) {
                 this.changeModeTimer = this.time.time + this.remainingTime;
                 this.isPaused = false;
