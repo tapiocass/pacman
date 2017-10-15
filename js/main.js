@@ -13,10 +13,12 @@ var mainPacman = function (game) {
 
     this.pacman = null;
     this.clyde = null;
+    this.pinky = null;
+    this.blinky = null;
     this.isClydeOut = false;
     this.safetile = 14;
     this.tamanhomaze = 16;
-    this.limite= 3;
+    this.limite = 3;
     this.timer = 0;
 
     this.SPECIAL_TILES = [
@@ -134,12 +136,14 @@ mainPacman.prototype = {
 
         this.changeModeTimer = this.time.time + this.TIME_MODES[this.currentMode].time;
 
-        //this.pinky = new Ghost(this, "ghosts", "pinky", {x:15, y:14}, Phaser.LEFT);
-        //this.clyde = new Ghost(this, "ghosts", "clyde", {x:17, y:17}, Phaser.LEFT);
+        this.pinky = new Ghost(this, "ghosts", "pinky", {x:15, y:17}, Phaser.LEFT);
+        this.clyde = new Ghost(this, "ghosts", "clyde", {x:17, y:17}, Phaser.LEFT);
         this.blinky = new Ghost(this, "ghosts", "blinky", {x:15, y:14}, Phaser.RIGHT);
         //this.inky = new Ghost(this, "ghosts", "inky", {x:15, y:17}, Phaser.LEFT);
 
-        this.ghosts.push(this.blinky);
+        this.ghosts.push(this.blinky, this.pinky, this.clyde);
+
+        this.sendExitOrder(this.pinky);
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
