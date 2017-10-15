@@ -229,7 +229,7 @@ Ghost.prototype = {
                 case this.AT_HOME:
                     if (!canContinue) {
                         this.turnPoint.x = (x * this.gridsize) + (this.gridsize / 2);
-                        this.turnPoint.y = (14 * this.gridsize) + (this.gridsize / 2);
+                        this.turnPoint.y = (17 * this.gridsize) + (this.gridsize / 2);
                         this.ghost.x = this.turnPoint.x;
                         this.ghost.y = this.turnPoint.y;
                         this.ghost.body.reset(this.turnPoint.x, this.turnPoint.y);
