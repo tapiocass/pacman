@@ -136,7 +136,7 @@ mainPacman.prototype = {
 
         this.blinky = new Ghost(this, "ghosts", "blinky", {x:15, y:14}, Phaser.RIGHT);
         this.pinky = new Ghost(this, "ghosts", "pinky", {x:15, y:17}, Phaser.LEFT);
-        this.clyde = new Ghost(this, "ghosts", "clyde", {x:17, y:17}, Phaser.LEFT);
+        this.clyde = new Ghost(this, "ghosts", "clyde", {x:15, y:14}, Phaser.LEFT);
 
         //this.inky = new Ghost(this, "ghosts", "inky", {x:15, y:17}, Phaser.LEFT);
 
