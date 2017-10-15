@@ -248,7 +248,7 @@ Ghost.prototype = {
                         this.ghost.y = this.turnPoint.y;
                         this.ghost.body.reset(this.turnPoint.x, this.turnPoint.y);
                         this.move(Phaser.UP);
-                    } else if (this.currentDir === Phaser.UP && y == 14) {
+                    } else if (this.currentDir === Phaser.UP && y == 11) {
                         this.turnPoint.x = (x * this.gridsize) + (this.gridsize / 2);
                         this.turnPoint.y = (y * this.gridsize) + (this.gridsize / 2);
                         this.ghost.x = this.turnPoint.x;

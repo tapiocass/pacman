@@ -222,13 +222,10 @@ Pacman.prototype.verificaDirecao = function (turnTo) {
         this.posicao = Phaser.NONE;
     }
 
+
+
 };
 
 Pacman.prototype.getPosition = function () {
     return new Phaser.Point((this.marker.x * this.tamanhomaze) + (this.tamanhomaze / 2), (this.marker.y * this.tamanhomaze) + (this.tamanhomaze / 2));
 };
-
-Pacman.prototype.getCurrentDirection = function() {
-    return this.current;
-};
-
