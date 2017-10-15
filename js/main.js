@@ -1,4 +1,4 @@
-var game = new Phaser.Game(448, 496, Phaser.AUTO, "game");
+var game = new Phaser.Game(448, 600, Phaser.AUTO, "game");
 
 var mainPacman = function (game) {
     this.map = null;
@@ -134,7 +134,10 @@ mainPacman.prototype = {
 
         this.pinky = new Ghost(this, "ghosts", "pinky", {x:15, y:14}, Phaser.LEFT);
         this.clyde = new Ghost(this, "ghosts", "clyde", {x:17, y:17}, Phaser.LEFT);
-        this.ghosts.push(this.clyde, this.pinky);
+        this.blinky = new Ghost(this, "ghosts", "blinky", {x:15, y:14}, Phaser.RIGHT);
+        this.inky = new Ghost(this, "ghosts", "inky", {x:15, y:17}, Phaser.LEFT);
+
+        this.ghosts.push(this.blinky, this.inky, this.pinky, this.clyde);
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
