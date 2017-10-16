@@ -212,7 +212,7 @@ mainPacman.prototype = {
             }
 
 
-            if (this.fruto < this.totalfrutos/3 && !this.isClydeOut) {
+            if (this.fruto < this.totalfrutos && !this.isClydeOut) {
                 this.isClydeOut = true;
                 this.sendExitOrder(this.clyde);
             }
