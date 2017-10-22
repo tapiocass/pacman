@@ -15,7 +15,9 @@ var mainPacman = function (game) {
     this.clyde = null;
     this.pinky = null;
     this.blinky = null;
+    this.inky = null;
     this.isClydeOut = false;
+    this.isInkyOut = false;
     this.safetile = 14;
     this.tamanhomaze = 16;
     this.limite= 3;
@@ -139,10 +141,9 @@ mainPacman.prototype = {
         this.blinky = new Ghost(this, "ghosts", "blinky", {x:15, y:14}, Phaser.RIGHT);
         this.pinky = new Ghost(this, "ghosts", "pinky", {x:15, y:17}, Phaser.LEFT);
         this.clyde = new Ghost(this, "ghosts", "clyde", {x:15, y:17}, Phaser.LEFT);
+        this.inky = new Ghost(this, "ghosts", "inky", {x:15, y:17}, Phaser.LEFT);
 
-        //this.inky = new Ghost(this, "ghosts", "inky", {x:15, y:17}, Phaser.LEFT);
-
-        this.ghosts.push(this.blinky,this.pinky,this.clyde);
+        this.ghosts.push(this.blinky,this.pinky,this.clyde, this.inky);
 
         this.sendExitOrder(this.pinky);
 
@@ -209,6 +210,11 @@ mainPacman.prototype = {
                 if (this.ghosts[i].mode !== this.ghosts[i].RETURNING_HOME) {
                     this.physics.arcade.overlap(this.pacman.sprite, this.ghosts[i].ghost, this.dogEatsDog, null, this);
                 }
+            }
+
+            if (this.totalfrutos - this.fruto > 30 && !this.isInkyOut) {
+                this.isInkyOut = true;
+                this.sendExitOrder(this.inky);
             }
 
 
