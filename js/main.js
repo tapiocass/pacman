@@ -22,6 +22,7 @@ var mainPacman = function (game) {
     this.tamanhomaze = 16;
     this.limite= 3;
     this.timer = 0;
+    this.bpmText;
 
     this.SPECIAL_TILES = [
         { x: 12, y: 11 },
@@ -103,6 +104,7 @@ mainPacman.prototype = {
         this.load.audio('song', ['assets/sounds/pacman_beginning.wav']);
         this.load.audio('munch', ['assets/sounds/pacman-munch.wav']);
         this.load.audio('munchPill', ['assets/sounds/pacman_eatfruit.wav']);
+        this.load.bitmapFont('carrier_command', 'assets/fonts/carrier_command.png', 'assets/fonts/carrier_command.xml');
     },
 
     create: function () {
@@ -116,6 +118,8 @@ mainPacman.prototype = {
         this.pontuacaoText = game.add.text(35, 20, this.pontuacao, { fontSize: "18px", fill: "#fff"});
         this.recordLabel = game.add.text(170, 0, "HIGH SCORES", { fontSize: "18px", fill: "#fff"});
         this.recordText = game.add.text(220, 20, this.pontuacao, { fontSize: "18px", fill: "#fff"});
+        this.playerone =  game.add.text(145, 220, "PLAYER ONE", { font:"bold 26px Courier",  fill: "#2dddff"});
+        this.ready =  game.add.text(190, 320, "READY!", { font:"bold  26px Courier",  fill: "#faff11"});
 
         this.frutos = this.add.physicsGroup();
         this.fruto = this.map.createFromTiles(7, 14, 'dot', this.layer, this.frutos);
@@ -138,14 +142,9 @@ mainPacman.prototype = {
 
         this.changeModeTimer = this.time.time + this.TIME_MODES[this.currentMode].time;
 
-        this.blinky = new Ghost(this, "ghosts", "blinky", {x:15, y:14}, Phaser.RIGHT);
-        this.pinky = new Ghost(this, "ghosts", "pinky", {x:15, y:17}, Phaser.LEFT);
-        this.clyde = new Ghost(this, "ghosts", "clyde", {x:15, y:17}, Phaser.LEFT);
-        this.inky = new Ghost(this, "ghosts", "inky", {x:15, y:17}, Phaser.LEFT);
 
-        this.ghosts.push(this.blinky,this.pinky,this.clyde, this.inky);
 
-        this.sendExitOrder(this.pinky);
+
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
@@ -194,11 +193,38 @@ mainPacman.prototype = {
         }
     },
 
+    iniciarPersonagens: function() {
+
+        this.blinky = new Ghost(this, "ghosts", "blinky", {x:13, y:14}, Phaser.RIGHT);
+        this.pinky = new Ghost(this, "ghosts", "pinky", {x:14, y:17}, Phaser.LEFT);
+        this.clyde = new Ghost(this, "ghosts", "clyde", {x:12, y:17}, Phaser.LEFT);
+        this.inky = new Ghost(this, "ghosts", "inky", {x:16, y:17}, Phaser.LEFT);
+        this.ghosts.push(this.blinky,this.pinky,this.clyde, this.inky);
+
+        this.sendExitOrder(this.pinky);
+
+    },
+
+    deslPlayerOne: function () {
+        this.playerone.visible = false;
+    },
+
+    deslReady: function () {
+        this.ready.visible = false;
+    },
+
     update: function () {
 
         this.pontuacaoText.text = this.pontuacao;
         this.recordText.text = this.pontuacao;
         this.timer += game.time.elapsed;
+        if (!this.inicio) {
+            this.inicio = true;
+            this.game.time.events.add(Phaser.Timer.SECOND * 2, this.deslPlayerOne, this);
+            this.game.time.events.add(Phaser.Timer.SECOND * 4, this.deslReady, this);
+            this.game.time.events.add(Phaser.Timer.SECOND * 5, this.iniciarPersonagens, this);
+
+        }
 
         if ( this.timer >= 200 ) {
             this.timer -= 200;
@@ -218,7 +244,7 @@ mainPacman.prototype = {
             }
 
 
-            if (this.fruto < this.totalfrutos && !this.isClydeOut) {
+            if (this.fruto < this.totalfrutos && !this.isClydeOut && this.clyde != null ) {
                 this.isClydeOut = true;
                 this.sendExitOrder(this.clyde);
             }
