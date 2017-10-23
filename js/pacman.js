@@ -24,16 +24,17 @@ var Pacman = function(game, key) {
     this.keyPressTimer = 0;
     this.KEY_COOLING_DOWN_TIME = 750;
 
-    this.sprite = this.game.add.sprite((14 * 16) + 3, (17 * 20) + 8, key, 0);
+    this.sprite = this.game.add.sprite((14 * 16) + 3, (17 * 20) + 85, key, 0);
     this.sprite.anchor.setTo(0.5);
     this.sprite.animations.add('munch', [0, 1, 2, 1], 20, true);
+    this.sprite.animations.add('preparar', [2], 20, true);
+
     this.sprite.animations.add("death", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13], 10, false);
 
     this.game.physics.arcade.enable(this.sprite);
     this.sprite.body.setSize(16, 16, 0, 0);
 
-    this.sprite.play('munch');
-    this.move(Phaser.STOP);
+    this.sprite.play('preparar');
 
 };
 
@@ -80,7 +81,7 @@ Pacman.prototype.move = function(direcao) {
 
 Pacman.prototype.update = function() {
 
-    if (!this.isDead) {
+    if (!this.isDead ) {
 
         this.game.physics.arcade.collide(this.sprite, this.game.layer);
         this.game.physics.arcade.overlap(this.sprite, this.game.frutos, this.comeFruto, null, this);
@@ -105,8 +106,9 @@ Pacman.prototype.update = function() {
 
         this.direcao[4] = this.game.map.getTileBelow(this.game.layer.index, this.marker.x, this.marker.y);
 
-        if (this.turning !== Phaser.NONE)
+        if (this.turning !== Phaser.NONE && this.game.playgame )
         {
+            this.sprite.play('munch');
             this.turn();
         }
     } else {

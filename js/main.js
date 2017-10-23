@@ -138,6 +138,7 @@ mainPacman.prototype = {
         this.munchPillSong = this.add.audio('munchPill');
         this.munchSong = this.add.audio('munch');
         this.pacman = new Pacman(this, "pacman");
+        this.pacman.sprite.visible = false;
         this.music = this.add.audio('song');
         this.music.play();
 
@@ -200,6 +201,7 @@ mainPacman.prototype = {
         this.pinky = new Ghost(this, "ghosts", "pinky", {x:14, y:17}, Phaser.LEFT);
         this.clyde = new Ghost(this, "ghosts", "clyde", {x:12, y:17}, Phaser.LEFT);
         this.inky = new Ghost(this, "ghosts", "inky", {x:16, y:17}, Phaser.LEFT);
+        this.pacman.sprite.visible = true;
         this.ghosts.push(this.blinky,this.pinky,this.clyde, this.inky);
     },
 
