@@ -51,7 +51,7 @@ var Ghost = function(game, key, name, startPos, startDir) {
             offsetGhost = 12;
             this.scatterDestination = new Phaser.Point(27 * this.gridsize, 0);
             this.safetiles = [this.game.safetile];
-            this.mode = this.SCATTER;
+            this.mode = this.STOP;
             break;
         default:
             break;

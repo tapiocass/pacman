@@ -23,6 +23,7 @@ var mainPacman = function (game) {
     this.limite= 3;
     this.timer = 0;
     this.bpmText;
+    this.playgame = false;
 
     this.SPECIAL_TILES = [
         { x: 12, y: 11 },
@@ -193,16 +194,19 @@ mainPacman.prototype = {
         }
     },
 
-    iniciarPersonagens: function() {
+    mostrarPersonagens: function() {
 
         this.blinky = new Ghost(this, "ghosts", "blinky", {x:13, y:14}, Phaser.RIGHT);
         this.pinky = new Ghost(this, "ghosts", "pinky", {x:14, y:17}, Phaser.LEFT);
         this.clyde = new Ghost(this, "ghosts", "clyde", {x:12, y:17}, Phaser.LEFT);
         this.inky = new Ghost(this, "ghosts", "inky", {x:16, y:17}, Phaser.LEFT);
         this.ghosts.push(this.blinky,this.pinky,this.clyde, this.inky);
+    },
 
+    jogar: function() {
+        this.blinky.mode = "scatter";
+        this.playgame = true;
         this.sendExitOrder(this.pinky);
-
     },
 
     deslPlayerOne: function () {
@@ -221,8 +225,10 @@ mainPacman.prototype = {
         if (!this.inicio) {
             this.inicio = true;
             this.game.time.events.add(Phaser.Timer.SECOND * 2, this.deslPlayerOne, this);
+            this.game.time.events.add(Phaser.Timer.SECOND * 2, this.mostrarPersonagens, this);
             this.game.time.events.add(Phaser.Timer.SECOND * 4, this.deslReady, this);
-            this.game.time.events.add(Phaser.Timer.SECOND * 5, this.iniciarPersonagens, this);
+            this.game.time.events.add(Phaser.Timer.SECOND * 4, this.jogar, this);
+
 
         }
 
@@ -238,13 +244,13 @@ mainPacman.prototype = {
                 }
             }
 
-            if (this.totalfrutos - this.fruto > 30 && !this.isInkyOut) {
+            if (this.totalfrutos - this.fruto > 30 && !this.isInkyOut && this.playgame) {
                 this.isInkyOut = true;
                 this.sendExitOrder(this.inky);
             }
 
 
-            if (this.fruto < this.totalfrutos && !this.isClydeOut && this.clyde != null ) {
+            if (this.fruto < this.totalfrutos && !this.isClydeOut && this.clyde != null && this.playgame ) {
                 this.isClydeOut = true;
                 this.sendExitOrder(this.clyde);
             }
