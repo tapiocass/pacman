@@ -152,7 +152,6 @@ mainPacman.prototype = {
         this.music.play();
 
         this.musicgame = this.add.audio('siren');
-        this.musicgame.play('', 0, 0.5, true);
 
         this.changeModeTimer = this.time.time + this.TIME_MODES[this.currentMode].time;
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -216,6 +215,7 @@ mainPacman.prototype = {
         this.blinky.mode = "scatter";
         this.playgame = true;
         this.sendExitOrder(this.pinky);
+        this.musicgame.play('', 0, 0.4, true);
     },
 
     deslPlayerOne: function () {
@@ -239,6 +239,7 @@ mainPacman.prototype = {
             this.game.time.events.add(Phaser.Timer.SECOND * 2, this.mostrarPersonagens, this);
             this.game.time.events.add(Phaser.Timer.SECOND * 4, this.deslReady, this);
             this.game.time.events.add(Phaser.Timer.SECOND * 4, this.jogar, this);
+
 
 
         }
