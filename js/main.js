@@ -152,8 +152,7 @@ mainPacman.prototype = {
         this.music.play();
 
         this.musicgame = this.add.audio('siren');
-        this.musicgame.loop = true;
-        this.musicgame.play();
+        this.musicgame.play('', 0, 0.5, true);
 
         this.changeModeTimer = this.time.time + this.TIME_MODES[this.currentMode].time;
         this.cursors = this.input.keyboard.createCursorKeys();
