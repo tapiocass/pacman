@@ -1,4 +1,4 @@
-var game = new Phaser.Game(448, 600, Phaser.AUTO, "game");
+    var game = new Phaser.Game(448, 600, Phaser.AUTO, "game");
 
 var mainPacman = function (game) {
     this.map = null;
@@ -10,6 +10,8 @@ var mainPacman = function (game) {
     this.pontuacao = 0;
     this.pontuacaoText = null;
     this.recordText = null;
+
+    this.musicgame = null;
 
     this.pacman = null;
     this.clyde = null;
@@ -80,6 +82,8 @@ var mainPacman = function (game) {
     this.ghosts = [];
 };
 
+
+
 mainPacman.prototype = {
 
     init: function () {
@@ -103,9 +107,12 @@ mainPacman.prototype = {
         this.load.tilemap('map', 'assets/json/pacman-map.json', null, Phaser.Tilemap.TILED_JSON);
 
         this.load.audio('song', ['assets/sounds/pacman_beginning.wav']);
+        this.load.audio('siren', ['assets/sounds/pacman_siren.mp3']);
         this.load.audio('munch', ['assets/sounds/pacman-munch.wav']);
         this.load.audio('munchPill', ['assets/sounds/pacman_eatfruit.wav']);
+
         this.load.bitmapFont('carrier_command', 'assets/fonts/carrier_command.png', 'assets/fonts/carrier_command.xml');
+
     },
 
     create: function () {
@@ -137,17 +144,18 @@ mainPacman.prototype = {
 
         this.munchPillSong = this.add.audio('munchPill');
         this.munchSong = this.add.audio('munch');
+
         this.pacman = new Pacman(this, "pacman");
         this.pacman.sprite.visible = false;
+
         this.music = this.add.audio('song');
         this.music.play();
 
+        this.musicgame = this.add.audio('siren');
+        this.musicgame.loop = true;
+        this.musicgame.play();
+
         this.changeModeTimer = this.time.time + this.TIME_MODES[this.currentMode].time;
-
-
-
-
-
         this.cursors = this.input.keyboard.createCursorKeys();
 
     },
@@ -220,6 +228,8 @@ mainPacman.prototype = {
     },
 
     update: function () {
+
+
 
         this.pontuacaoText.text = this.pontuacao;
         this.recordText.text = this.pontuacao;
