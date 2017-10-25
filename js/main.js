@@ -72,7 +72,7 @@ var mainPacman = function (game) {
     this.changeModeTimer = 0;
     this.remainingTime = 0;
     this.currentMode = 0;
-    this.isPaused = false;
+    this.isPaused = 0;
     this.FRIGHTENED_MODE_TIME = 7000;
     this.ORIGINAL_OVERFLOW_ERROR_ON = true;
 
@@ -125,6 +125,8 @@ mainPacman.prototype = {
         this.up = game.add.text(30, 0, "1 UP", { fontSize: "18px", fill: "#fff"});
         this.pontuacaoText = game.add.text(35, 20, this.pontuacao, { fontSize: "18px", fill: "#fff"});
         this.recordLabel = game.add.text(170, 0, "HIGH SCORES", { fontSize: "18px", fill: "#fff"});
+        this.pauseButton = game.add.text(380, 0, "PAUSE", { fontSize: "18px", fill: "#fff"});
+
         this.recordText = game.add.text(220, 20, this.pontuacao, { fontSize: "18px", fill: "#fff"});
         this.playerone =  game.add.text(145, 220, "PLAYER ONE", { font:"bold 26px Courier",  fill: "#2dddff"});
         this.ready =  game.add.text(190, 320, "READY!", { font:"bold  26px Courier",  fill: "#faff11"});
@@ -156,6 +158,24 @@ mainPacman.prototype = {
         this.changeModeTimer = this.time.time + this.TIME_MODES[this.currentMode].time;
         this.cursors = this.input.keyboard.createCursorKeys();
 
+        this.pauseButton.inputEnabled = true;
+        this.pauseButton.events.onInputUp.add(function () {
+
+            this.game.paused = true;
+            this.isPaused = true;
+        });
+
+        this.game.input.onDown.add(this.unpause, self);
+
+    },
+
+    // And finally the method that handels the pause menu
+    unpause: function (event){
+        // Only act if paused
+        if(this.game.paused ){
+            this.isPaused = false;
+            this.game.paused = false;
+        }
     },
 
     dogEatsDog: function(pacman, ghost) {
@@ -228,7 +248,7 @@ mainPacman.prototype = {
 
     update: function () {
 
-
+        //this.verificaPause();
 
         this.pontuacaoText.text = this.pontuacao;
         this.recordText.text = this.pontuacao;
