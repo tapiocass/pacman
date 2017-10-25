@@ -158,6 +158,7 @@ mainPacman.prototype = {
         this.changeModeTimer = this.time.time + this.TIME_MODES[this.currentMode].time;
         this.cursors = this.input.keyboard.createCursorKeys();
 
+        //Botão de pause do jogo
         this.pauseButton.inputEnabled = true;
         this.pauseButton.events.onInputUp.add(function () {
 
@@ -248,10 +249,17 @@ mainPacman.prototype = {
 
     update: function () {
 
-        //this.verificaPause();
-
         this.pontuacaoText.text = this.pontuacao;
-        this.recordText.text = this.pontuacao;
+
+        //Verifica a maior pontuação
+        if (this.pontuacao > localStorage.getItem("highscore"))
+        {
+            localStorage.setItem("highscore", this.pontuacao);
+        }
+
+        var pontuacaomaxima = localStorage.getItem("highscore");
+        this.recordText.text = pontuacaomaxima;
+
         this.timer += game.time.elapsed;
         if (!this.inicio) {
             this.inicio = true;
