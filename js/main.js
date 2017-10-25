@@ -26,6 +26,8 @@ var mainPacman = function (game) {
     this.timer = 0;
     this.bpmText;
     this.playgame = false;
+    this.pontuacaomaxima = null;
+
 
     this.SPECIAL_TILES = [
         { x: 12, y: 11 },
@@ -131,6 +133,15 @@ mainPacman.prototype = {
         this.playerone =  game.add.text(145, 220, "PLAYER ONE", { font:"bold 26px Courier",  fill: "#2dddff"});
         this.ready =  game.add.text(190, 320, "READY!", { font:"bold  26px Courier",  fill: "#faff11"});
 
+        if(localStorage.getItem("highscore") != null){
+            this.pontuacaomaxima = localStorage.getItem("highscore");
+        }
+        else{
+            this.pontuacaomaxima = localStorage.setItem("highscore",0);
+        }
+
+
+
         this.frutos = this.add.physicsGroup();
         this.fruto = this.map.createFromTiles(7, 14, 'dot', this.layer, this.frutos);
         this.totalfrutos = this.fruto;
@@ -230,6 +241,7 @@ mainPacman.prototype = {
         this.inky = new Ghost(this, "ghosts", "inky", {x:16, y:17}, Phaser.LEFT);
         this.pacman.sprite.visible = true;
         this.ghosts.push(this.blinky,this.pinky,this.clyde, this.inky);
+
     },
 
     jogar: function() {
@@ -257,8 +269,9 @@ mainPacman.prototype = {
             localStorage.setItem("highscore", this.pontuacao);
         }
 
-        var pontuacaomaxima = localStorage.getItem("highscore");
-        this.recordText.text = pontuacaomaxima;
+        this.pontuacaomaxima = localStorage.getItem("highscore");
+
+        this.recordText.text = this.pontuacaomaxima;
 
         this.timer += game.time.elapsed;
         if (!this.inicio) {
@@ -267,8 +280,6 @@ mainPacman.prototype = {
             this.game.time.events.add(Phaser.Timer.SECOND * 2, this.mostrarPersonagens, this);
             this.game.time.events.add(Phaser.Timer.SECOND * 4, this.deslReady, this);
             this.game.time.events.add(Phaser.Timer.SECOND * 4, this.jogar, this);
-
-
 
         }
 
@@ -359,7 +370,10 @@ mainPacman.prototype = {
     },
 
     sendExitOrder: function(ghost) {
-        ghost.mode = this.clyde.EXIT_HOME;
+        if (ghost !== null) {
+            ghost.mode = ghost.EXIT_HOME;
+        }
+
     },
 
     sendScatterOrder: function() {

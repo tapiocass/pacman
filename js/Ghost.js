@@ -29,7 +29,7 @@ var Ghost = function(game, key, name, startPos, startDir) {
     this.ghostSpeed = 150;
     this.ghostScatterSpeed = 125;
     this.ghostFrightenedSpeed = 75;
-    this.cruiseElroySpeed = 160;
+    this.cruiseElroySpeed = 170;
     this.directions = [ null, null, null, null, null ];
     this.opposites = [ Phaser.NONE, Phaser.RIGHT, Phaser.LEFT, Phaser.DOWN, Phaser.UP ];
     this.currentDir = startDir;
@@ -141,7 +141,7 @@ Ghost.prototype = {
                         this.ghost.body.reset(this.ghost.x, this.ghost.y);
                         if (this.flag = this.flag ? false : true) {
                             this.ghost.body.velocity.x = 0;
-                            if (this.ghost.y < 14 * this.gridsize) {
+                            if (this.ghost.y < 13 * this.gridsize) {
                                 this.ghost.body.velocity.y = this.cruiseElroySpeed;
                                 this.ghost.animations.play(23);
                             }
@@ -153,23 +153,25 @@ Ghost.prototype = {
                             this.ghost.body.velocity.y = 0;
                             if (this.ghost.x < 13 * this.gridsize) {
                                 this.ghost.body.velocity.x = this.cruiseElroySpeed;
-                                this.ghost.animations.play(20);
+                                this.ghost.animations.play(21);
                             }
                             if (this.ghost.x > 16 * this.gridsize) {
                                 this.ghost.body.velocity.x = -this.cruiseElroySpeed;
-                                this.ghost.animations.play(21);
+                                this.ghost.animations.play(20);
                             }
                         }
                         this.turnTimer = this.game.time.time + this.RETURNING_COOLDOWN;
                     }
                     if (this.hasReachedHome()) {
+
                         this.turnPoint.x = (x * this.gridsize) + (this.gridsize / 2);
-                        this.turnPoint.y = (y * this.gridsize) + (this.gridsize / 2);
+                        this.turnPoint.y = (17 * this.gridsize) + (this.gridsize / 2);
                         this.ghost.x = this.turnPoint.x;
                         this.ghost.y = this.turnPoint.y;
                         this.ghost.body.reset(this.turnPoint.x, this.turnPoint.y);
                         this.mode = this.AT_HOME;
                         this.game.gimeMeExitOrder(this);
+
                     }
                     break;
 

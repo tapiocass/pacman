@@ -180,6 +180,7 @@ Pacman.prototype.comePilula = function(pacman, pill) {
 
     this.game.pontuacao += 50;
     this.game.numpilulas--;
+    this.game.enterFrightenedMode();
 
 };
 
