@@ -24,9 +24,9 @@ var mainPacman = function (game) {
     this.tamanhomaze = 16;
     this.limite= 3;
     this.timer = 0;
-    this.bpmText;
     this.playgame = false;
     this.pontuacaomaxima = null;
+    this.numerovidas = 2;
 
 
     this.SPECIAL_TILES = [
