@@ -1,4 +1,4 @@
-    var game = new Phaser.Game(448, 600, Phaser.AUTO, "game");
+   var game = new Phaser.Game(448, 600, Phaser.AUTO, "game");
 
 var mainPacman = function (game) {
     this.map = null;
@@ -10,7 +10,7 @@ var mainPacman = function (game) {
     this.pontuacao = 0;
     this.pontuacaoText = null;
     this.recordText = null;
-
+    this.pauseText = null;
     this.musicgame = null;
 
     this.pacman = null;
@@ -127,8 +127,7 @@ mainPacman.prototype = {
         this.up = game.add.text(30, 0, "1 UP", { fontSize: "18px", fill: "#fff"});
         this.pontuacaoText = game.add.text(35, 20, this.pontuacao, { fontSize: "18px", fill: "#fff"});
         this.recordLabel = game.add.text(170, 0, "HIGH SCORES", { fontSize: "18px", fill: "#fff"});
-        this.pauseButton = game.add.text(380, 0, "PAUSE", { fontSize: "18px", fill: "#fff"});
-
+        this.pauseText = game.add.text(125, 250, "PAUSE", { fontSize: "60px", fill: "#fff"});
         this.recordText = game.add.text(220, 20, this.pontuacao, { fontSize: "18px", fill: "#fff"});
         this.playerone =  game.add.text(145, 220, "PLAYER ONE", { font:"bold 26px Courier",  fill: "#2dddff"});
         this.ready =  game.add.text(190, 320, "READY!", { font:"bold  26px Courier",  fill: "#faff11"});
@@ -139,8 +138,6 @@ mainPacman.prototype = {
         else{
             this.pontuacaomaxima = localStorage.setItem("highscore",0);
         }
-
-
 
         this.frutos = this.add.physicsGroup();
         this.fruto = this.map.createFromTiles(7, 14, 'dot', this.layer, this.frutos);
@@ -169,26 +166,10 @@ mainPacman.prototype = {
         this.changeModeTimer = this.time.time + this.TIME_MODES[this.currentMode].time;
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        //Botão de pause do jogo
-        this.pauseButton.inputEnabled = true;
-        this.pauseButton.events.onInputUp.add(function () {
-
-            this.game.paused = true;
-            this.isPaused = true;
-        });
-
-        this.game.input.onDown.add(this.unpause, self);
+        this.pauseText.visible = false;
 
     },
 
-    // And finally the method that handels the pause menu
-    unpause: function (event){
-        // Only act if paused
-        if(this.game.paused ){
-            this.isPaused = false;
-            this.game.paused = false;
-        }
-    },
 
     dogEatsDog: function(pacman, ghost) {
         if (this.isPaused) {
@@ -260,6 +241,15 @@ mainPacman.prototype = {
     },
 
     update: function () {
+
+        window.onkeydown = function() {
+            if (this.game.input.keyboard.event.keyCode == 32){
+                this.game.paused = !this.game.paused;
+
+            }
+        }
+
+        //this.pauseText.visible = true;
 
         this.pontuacaoText.text = this.pontuacao;
 
