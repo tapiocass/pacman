@@ -166,6 +166,8 @@ mainPacman.prototype = {
         this.changeModeTimer = this.time.time + this.TIME_MODES[this.currentMode].time;
         this.cursors = this.input.keyboard.createCursorKeys();
 
+        this.pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        this.pauseKey.onDown.add(this.pauseFunction, this);
         this.pauseText.visible = false;
 
     },
@@ -240,16 +242,12 @@ mainPacman.prototype = {
         this.ready.visible = false;
     },
 
+    pauseFunction:function(){
+        this.pauseText.visible = !this.pauseText.visible;
+        this.game.paused = !this.game.paused;
+    },
+
     update: function () {
-
-        window.onkeydown = function() {
-            if (this.game.input.keyboard.event.keyCode == 32){
-                this.game.paused = !this.game.paused;
-
-            }
-        }
-
-        //this.pauseText.visible = true;
 
         this.pontuacaoText.text = this.pontuacao;
 
