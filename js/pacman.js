@@ -113,10 +113,11 @@ Pacman.prototype.update = function() {
         }
     } else {
         this.move(Phaser.NONE);
-        if (!this.isAnimatingDeath) {
+        if (!this.isAnimatingDeath && this.sprite.x !==220 && this.sprite.y !== 420) {
             this.sprite.play("death");
             this.isAnimatingDeath = true;
         }
+
     }
 
 
