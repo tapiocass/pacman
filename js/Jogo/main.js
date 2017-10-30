@@ -26,7 +26,9 @@ var mainPacman = function (game) {
     this.timer = 0;
     this.playgame = false;
     this.pontuacaomaxima = null;
-    this.numerovidas = 2;
+    this.numerovidas = 1;
+    this.vida1 = null;
+    this.vida2 = null;
 
 
     this.SPECIAL_TILES = [
@@ -67,7 +69,7 @@ var mainPacman = function (game) {
         },
         {
             mode: "chase",
-            time: -1 // -1 = infinite
+            time: 6666 // -1 = infinite
         }
     ];
 
@@ -82,6 +84,7 @@ var mainPacman = function (game) {
 
     this.game = game;
     this.ghosts = [];
+    this.vidas  = [];
 };
 
 
@@ -156,6 +159,11 @@ mainPacman.prototype = {
         this.munchSong = this.add.audio('munch');
 
         this.pacman = new Pacman(this, "pacman");
+        this.vida1 = game.add.sprite((14), (17 * 20) + 210, "pacman", 1);
+        this.vida2 = game.add.sprite((50), (17 * 20) + 210, "pacman", 1);
+        this.vidas.push(this.vida1,this.vida2);
+
+
         this.pacman.sprite.visible = false;
 
         this.music = this.add.audio('song');
@@ -179,7 +187,7 @@ mainPacman.prototype = {
             this[ghost.name].resetSafeTiles();
             this.pontuacao += 10;
         } else {
-            this.killPacman();
+           this.killPacman();
         }
     },
 
@@ -213,7 +221,73 @@ mainPacman.prototype = {
         for (var i=0; i<this.ghosts.length; i++) {
             this.ghosts[i].mode = this.ghosts[i].STOP;
         }
+        this.game.time.events.add(Phaser.Timer.SECOND*4, this.posicionarNoInicio, this);
+        this.game.time.events.add(Phaser.Timer.SECOND*6, this.acordarPacman, this);
+        this.game.time.events.add(Phaser.Timer.SECOND*6, this.deslReady, this);
     },
+
+    libertaFantasmas: function(){
+
+
+        this.ghosts[0].mode = "scatter";
+        this.sendExitOrder(this.pinky);
+
+        this.isClydeOut = false;
+        this.isInkyOut = false;
+        this.playgame = true;
+
+
+        this.pacman.isAnimatingDeath = false;
+    },
+
+
+    posicionarNoInicio: function () {
+        this.isClydeOut = true;
+        this.isInkyOut = true;
+        this.playgame = false;
+        this.currentMode = 1;
+        this.changeModeTimer = 0;
+
+        this.ghosts[0].ghost.x = 220;
+        this.ghosts[0].ghost.y = 230;
+        this.ghosts[0].ghost.play(Phaser.RIGHT);
+
+
+
+        this.ghosts[1].ghost.x = 195;
+        this.ghosts[2].ghost.x = 220;
+        this.ghosts[3].ghost.x = 250;
+
+
+
+        for (var i = 1;i<4;i++)
+        {
+           this.ghosts[i].ghost.y = 280;
+            this.ghosts[i].isAttacking = false;
+           this.ghosts[i].move(Phaser.LEFT);
+           this.ghosts[i].mode = this.ghosts[i].AT_HOME;
+
+
+            this.ghosts[i].resetSafeTiles();
+           this.ghosts[i].ghostDestination = new Phaser.Point(14 * this.tamanhomaze, 14 * this.tamanhomaze);
+        }
+
+
+
+        this.vidas[this.numerovidas].visible = false;
+        this.numerovidas--;
+
+
+
+        this.pacman.sprite.x = 220;
+        this.pacman.sprite.y = 420;
+        this.pacman.sprite.play('preparar');
+        this.ready.visible = true;
+
+        this.game.time.events.add(Phaser.Timer.SECOND*2, this.libertaFantasmas, this);
+
+    },
+
 
     mostrarPersonagens: function() {
 
@@ -224,6 +298,10 @@ mainPacman.prototype = {
         this.pacman.sprite.visible = true;
         this.ghosts.push(this.blinky,this.pinky,this.clyde, this.inky);
 
+    },
+
+    acordarPacman: function () {
+        this.pacman.isDead = false;
     },
 
     jogar: function() {
@@ -269,7 +347,6 @@ mainPacman.prototype = {
             this.game.time.events.add(Phaser.Timer.SECOND * 4, this.jogar, this);
 
         }
-
         if ( this.timer >= 200 ) {
             this.timer -= 200;
             this.up.visible = !this.up.visible;
@@ -282,7 +359,7 @@ mainPacman.prototype = {
                 }
             }
 
-            if (this.totalfrutos - this.fruto > 30 && !this.isInkyOut && this.playgame) {
+            if (this.totalfrutos - this.fruto > 30 && !this.isInkyOut && this.playgame   ) {
                 this.isInkyOut = true;
                 this.sendExitOrder(this.inky);
             }
@@ -293,7 +370,7 @@ mainPacman.prototype = {
                 this.sendExitOrder(this.clyde);
             }
 
-            if (this.changeModeTimer !== -1 && !this.isPaused && this.changeModeTimer < this.time.time) {
+            if (this.changeModeTimer !== -1 && !this.isPaused && this.changeModeTimer < this.time.time && !this.pacman.isDead ) {
                 this.currentMode++;
                 this.changeModeTimer = this.time.time + this.TIME_MODES[this.currentMode].time;
                 if (this.TIME_MODES[this.currentMode].mode === "chase") {
@@ -301,8 +378,16 @@ mainPacman.prototype = {
                 } else {
                     this.sendScatterOrder();
                 }
-                console.log("new mode:", this.TIME_MODES[this.currentMode].mode, this.TIME_MODES[this.currentMode].time);
+                console.log("new mode:", this.TIME_MODES[this.currentMode].mode, this.TIME_MODES[this.currentMode].time,this.currentMode);
             }
+
+            if (this.currentMode == 6) {
+
+                this.currentMode = 0;
+
+            }
+
+
 
             if (this.isPaused && this.changeModeTimer < this.time.time) {
                 this.changeModeTimer = this.time.time + this.remainingTime;
@@ -316,10 +401,11 @@ mainPacman.prototype = {
             }
         }
 
-        this.pacman.update();
+          this.pacman.update();
 
         this.movimentaPacman();
-        this.updateGhosts();
+          this.updateGhosts();
+
     },
 
     enterFrightenedMode: function() {
@@ -357,9 +443,9 @@ mainPacman.prototype = {
     },
 
     sendExitOrder: function(ghost) {
-        if (ghost !== null) {
-            ghost.mode = ghost.EXIT_HOME;
-        }
+        if (ghost !== null ) {
+                ghost.mode = ghost.EXIT_HOME;
+            }
 
     },
 
