@@ -122,7 +122,7 @@ mainPacman.prototype = {
         this.load.audio('comendoFantasma', ['assets/sounds/pacman_modo_comedor.mp3']);
         this.load.audio('fantasmacomido', ['assets/sounds/pacman_eatghost.wav']);
         this.load.audio('ghostreturn', ['assets/sounds/pacman_ghost_return.mp3']);
-
+        this.load.audio('vitoria', ['assets/sounds/pacman_vitoria.mp3']);
 
         this.load.bitmapFont('carrier_command', 'assets/fonts/carrier_command.png', 'assets/fonts/carrier_command.xml');
 
@@ -178,6 +178,7 @@ mainPacman.prototype = {
         this.comendoFantasmaSong.override = true;
         this.fantasmacomido =  this.add.audio('fantasmacomido');
         this.ghostreturn =  this.add.audio('ghostreturn');
+        this.cantodavitoria = this.add.audio('vitoria');
 
 
         this.pacman = new Pacman(this, "pacman");
@@ -256,9 +257,11 @@ mainPacman.prototype = {
         this.pacman.isDead = true;
         this.stopGhosts();
 
-        if (this.numerovidas < 0  ){
-           window.location = "./gameover.html"
-        }
+       // if (this.numerovidas < 0  ){
+       //     localStorage.setItem("pontuacao", this.pontuacao);
+       //     window.location = "./gameover.html";
+
+       // }
 
     },
 
@@ -271,12 +274,19 @@ mainPacman.prototype = {
 
 
         if (this.numerovidas >=0  ) {
+
             this.game.time.events.add(Phaser.Timer.SECOND * 4, this.posicionarNoInicio, this);
             this.game.time.events.add(Phaser.Timer.SECOND * 6, this.acordarPacman, this);
             this.game.time.events.add(Phaser.Timer.SECOND * 6, this.deslReady, this);
         } else {
+            localStorage.setItem("pontuacao", this.pontuacao);
 
+            this.game.time.events.add(Phaser.Timer.SECOND * 4, this.chamarScore, this);
         }
+    },
+
+    chamarScore: function () {
+        window.location = "./gameover.html";
     },
 
     libertaFantasmas: function(){
@@ -382,6 +392,7 @@ mainPacman.prototype = {
 
 
         this.pontuacaoText.text = this.pontuacao;
+
 
         //Verifica a maior pontuação
         if (this.pontuacao > localStorage.getItem("highscore"))

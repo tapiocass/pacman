@@ -14,27 +14,58 @@
 
 <body>
 
-    <section class="container">
-        <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-                <div class="pacman">
-                    <div class="pacman-top"></div>
-                    <div class="pacman-bottom"></div>
-                    <div class="feed"></div>
+<section class="container">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="pacman">
+                <div class="pacman-top"></div>
+                <div class="pacman-bottom"></div>
+                <div class="feed"></div>
+            </div>
+            <p class=" score texto">Seu score é: </p>
+            <p class="gameover texto" id="pontuacao">190</p>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-7 col-md-offset-2 formulario">
+            <p class="texto">Insira seu nome para salvar seu score</p>
+            <input class="text-center" name="pontuacao" id="nome" type="text">
+            <input id="btnenviar" class="btn-info" type="button" value="Enviar">
+
+            <div class="formulario" style="margin-top: 60px;">
+                <div class="espaco2">
+                    <a class="texto" href="ranking.html">Ranking</a>
                 </div>
-                <p class=" score texto">GAME OVER</p>
+
+                <div class="espaco">
+                    <a class="texto" href="index.html">Reaload</a>
+                </div>
             </div>
 
         </div>
 
-        <div class="row">
-            <div class="col-md-12 formulario">
-                <a class="col-md-2 col-md-offset-3 texto" href="ranking.html">Ranking</a>
-                <a class="col-md-2 col-md-offset-6 texto" href="index.html">Reaload</a>
-            </div>
 
-        </div>
-    </section>
+    </div>
+
+    <div class="row">
+
+    </div>
+
+</section>
+
+
+
+
+
+    <script>
+        $(document).ready(function () {
+            $("#pontuacao").text(localStorage.getItem("pontuacao"));
+            console.log(localStorage.getItem("pontuacao"));
+        });
+
+    </script>
 
     <script src="js/Firebase/firebase.js"></script>
     <script src="js/Utils/clickbutton.js"></script>

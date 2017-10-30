@@ -25,13 +25,21 @@ html{
     width: 377px
 }
 
+.espaco2{
+    margin-left: 129px;
+}
+
+.espaco{
+    margin-left: 529px;
+}
+
 #pontuacao {
-    margin-left: 342px;
+    margin-left: 460px;
     margin-top: 150px;
 }
 
 .score{
-    margin: 150px 156px;
+    margin: 150px 60px;
 }
 
 .tabela{

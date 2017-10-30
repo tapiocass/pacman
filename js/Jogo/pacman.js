@@ -170,9 +170,15 @@ Pacman.prototype.comeFruto = function(pacman, dot) {
     this.game.pontuacao +=10;
     this.game.fruto --;
 
-    if (this.game.frutos.total === 0)
+    if (this.game.frutos.total === 0 )
     {
-        this.game.frutos.callAll('revive');
+        this.game.cantodavitoria.play('', 0, 1, false);
+        this.game.numerovidas = -1;
+        this.game.stopGhosts();
+        this.game.time.events.add(Phaser.Timer.SECOND * 10, this.game.chamarScore, this);
+
+        //this.game.frutos.callAll('revive');
+
     }
 };
 
@@ -183,6 +189,8 @@ if (this.game.habilitarFruta) {
     dot.kill();
     this.game.pontuacao += 100;
     this.numeroCereja --;
+
+
 }
 
 };
