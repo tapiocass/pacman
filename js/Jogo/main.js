@@ -229,6 +229,11 @@ mainPacman.prototype = {
     killPacman: function() {
         this.pacman.isDead = true;
         this.stopGhosts();
+
+        if (this.numerovidas < 0  ){
+           window.location = "./gameover.html"
+        }
+
     },
 
     stopGhosts: function() {
