@@ -115,6 +115,10 @@ mainPacman.prototype = {
         this.load.audio('siren', ['assets/sounds/pacman_siren.mp3']);
         this.load.audio('munch', ['assets/sounds/pacman-munch.wav']);
         this.load.audio('munchPill', ['assets/sounds/pacman_eatfruit.wav']);
+        this.load.audio('death', ['assets/sounds/pacman_death.wav']);
+        this.load.audio('comendoFantasma', ['assets/sounds/pacman_modo_comedor.mp3']);
+        this.load.audio('fantasmacomido', ['assets/sounds/pacman_eatghost.wav']);
+
 
         this.load.bitmapFont('carrier_command', 'assets/fonts/carrier_command.png', 'assets/fonts/carrier_command.xml');
 
@@ -157,6 +161,11 @@ mainPacman.prototype = {
 
         this.munchPillSong = this.add.audio('munchPill');
         this.munchSong = this.add.audio('munch');
+        this.deathSong = this.add.audio('death');
+        this.comendoFantasmaSong = this.add.audio('comendoFantasma');
+        this.comendoFantasmaSong.override = true;
+        this.fantasmacomido =  this.add.audio('fantasmacomido');
+
 
         this.pacman = new Pacman(this, "pacman");
         this.vida1 = game.add.sprite((14), (17 * 20) + 210, "pacman", 1);
@@ -182,6 +191,7 @@ mainPacman.prototype = {
 
     dogEatsDog: function(pacman, ghost) {
         if (this.isPaused) {
+            this.fantasmacomido.play('', 0, 1, false);
             this[ghost.name].mode = this[ghost.name].RETURNING_HOME;
             this[ghost.name].ghostDestination = new Phaser.Point(14 * this.tamanhomaze, 14 * this.tamanhomaze);
             this[ghost.name].resetSafeTiles();
@@ -221,9 +231,17 @@ mainPacman.prototype = {
         for (var i=0; i<this.ghosts.length; i++) {
             this.ghosts[i].mode = this.ghosts[i].STOP;
         }
-        this.game.time.events.add(Phaser.Timer.SECOND*4, this.posicionarNoInicio, this);
-        this.game.time.events.add(Phaser.Timer.SECOND*6, this.acordarPacman, this);
-        this.game.time.events.add(Phaser.Timer.SECOND*6, this.deslReady, this);
+        this.musicgame.stop();
+        this.deathSong.play('', 0, 1, false);
+
+
+        if (this.numerovidas >=0  ) {
+            this.game.time.events.add(Phaser.Timer.SECOND * 4, this.posicionarNoInicio, this);
+            this.game.time.events.add(Phaser.Timer.SECOND * 6, this.acordarPacman, this);
+            this.game.time.events.add(Phaser.Timer.SECOND * 6, this.deslReady, this);
+        } else {
+
+        }
     },
 
     libertaFantasmas: function(){
@@ -238,6 +256,8 @@ mainPacman.prototype = {
 
 
         this.pacman.isAnimatingDeath = false;
+        this.musicgame.play('', 0, 1, true);
+
     },
 
 
@@ -247,7 +267,6 @@ mainPacman.prototype = {
         this.playgame = false;
         this.currentMode = 1;
         this.changeModeTimer = 0;
-
         this.ghosts[0].ghost.x = 220;
         this.ghosts[0].ghost.y = 230;
         this.ghosts[0].ghost.play(Phaser.RIGHT);
@@ -325,6 +344,7 @@ mainPacman.prototype = {
     },
 
     update: function () {
+
 
         this.pontuacaoText.text = this.pontuacao;
 
@@ -408,7 +428,19 @@ mainPacman.prototype = {
 
     },
 
+    iniciarmusicgame: function() {
+        this.musicgame.play('',0,0.7,true);
+    },
+
     enterFrightenedMode: function() {
+        this.musicgame.stop();
+        this.comendoFantasmaSong.play('', 0, 0.5, false);
+
+        this.game.time.events.add(Phaser.Timer.SECOND * 6, this.iniciarmusicgame , this);
+
+
+
+
         for (var i=0; i<this.ghosts.length; i++) {
             this.ghosts[i].enterFrightenedMode();
         }
