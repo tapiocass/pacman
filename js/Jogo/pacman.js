@@ -178,19 +178,14 @@ Pacman.prototype.comeFruto = function(pacman, dot) {
 
 Pacman.prototype.comeEnergetico = function(pacman, dot) {
 
-   // if (!this.game.munchSong.isPlaying) {
-   //     this.game.munchSong.play('', 0, 1, false);
 
-   // }
 if (this.game.habilitarFruta) {
     dot.kill();
     this.game.pontuacao += 100;
     this.numeroCereja --;
-
 }
+
 };
-
-
 
 Pacman.prototype.comePilula = function(pacman, pill) {
     this.game.munchPillSong.play('', 0, 1, false);
