@@ -86,6 +86,7 @@ Pacman.prototype.update = function() {
         this.game.physics.arcade.collide(this.sprite, this.game.layer);
         this.game.physics.arcade.overlap(this.sprite, this.game.frutos, this.comeFruto, null, this);
         this.game.physics.arcade.overlap(this.sprite, this.game.pilulas, this.comePilula, null, this);
+        this.game.physics.arcade.overlap(this.sprite, this.game.bonusgroup, this.comeEnergetico, null, this);
 
         this.marker.x = this.game.math.snapToFloor(Math.floor(this.sprite.x), this.tamanhomaze) / this.tamanhomaze;
         this.marker.y = this.game.math.snapToFloor(Math.floor(this.sprite.y), this.tamanhomaze) / this.tamanhomaze;
@@ -174,6 +175,22 @@ Pacman.prototype.comeFruto = function(pacman, dot) {
         this.game.frutos.callAll('revive');
     }
 };
+
+Pacman.prototype.comeEnergetico = function(pacman, dot) {
+
+   // if (!this.game.munchSong.isPlaying) {
+   //     this.game.munchSong.play('', 0, 1, false);
+
+   // }
+if (this.game.habilitarFruta) {
+    dot.kill();
+    this.game.pontuacao += 100;
+    this.numeroCereja --;
+
+}
+};
+
+
 
 Pacman.prototype.comePilula = function(pacman, pill) {
     this.game.munchPillSong.play('', 0, 1, false);
