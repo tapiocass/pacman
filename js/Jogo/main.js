@@ -169,7 +169,6 @@ mainPacman.prototype = {
         this.pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         this.pauseKey.onDown.add(this.pauseFunction, this);
         this.pauseText.visible = false;
-
     },
 
 

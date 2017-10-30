@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Jogo Pacman</title>
+    <meta charset="utf-8">
+
+    <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <link href="css/style.css" type="text/css" rel="stylesheet">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"> </script>
+    <script src="https://www.gstatic.com/firebasejs/4.6.0/firebase.js"></script>
+    <script src="js/Phaser/phaser.min.js"></script>
+</head>
+
+<body>
+
+    <section class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="pacman">
+                    <div class="pacman-top"></div>
+                    <div class="pacman-bottom"></div>
+                    <div class="feed"></div>
+                </div>
+                <p class=" score texto">Seu score é: </p>
+                <p class="texto" id="pontuacao">190</p>
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-7 col-md-offset-2 formulario">
+                <p class="texto">Insira seu nome para salvar seu score</p>
+                <input class="text-center" name="pontuacao" id="nome" type="text">
+                <input id="btnenviar" class="btn-info" type="button" value="Enviar">
+            </div>
+
+        </div>
+    </section>
+
+    <script src="js/Firebase/firebase.js"></script>
+    <script src="js/Utils/clickbutton.js"></script>
+
+</body>
+
+</html>
