@@ -170,6 +170,7 @@ Ghost.prototype = {
                         this.ghost.y = this.turnPoint.y;
                         this.ghost.body.reset(this.turnPoint.x, this.turnPoint.y);
                         this.mode = this.AT_HOME;
+                        this.game.ghostreturn.stop();
                         this.game.gimeMeExitOrder(this);
 
                     }

@@ -118,6 +118,7 @@ mainPacman.prototype = {
         this.load.audio('death', ['assets/sounds/pacman_death.wav']);
         this.load.audio('comendoFantasma', ['assets/sounds/pacman_modo_comedor.mp3']);
         this.load.audio('fantasmacomido', ['assets/sounds/pacman_eatghost.wav']);
+        this.load.audio('ghostreturn', ['assets/sounds/pacman_ghost_return.mp3']);
 
 
         this.load.bitmapFont('carrier_command', 'assets/fonts/carrier_command.png', 'assets/fonts/carrier_command.xml');
@@ -165,6 +166,7 @@ mainPacman.prototype = {
         this.comendoFantasmaSong = this.add.audio('comendoFantasma');
         this.comendoFantasmaSong.override = true;
         this.fantasmacomido =  this.add.audio('fantasmacomido');
+        this.ghostreturn =  this.add.audio('ghostreturn');
 
 
         this.pacman = new Pacman(this, "pacman");
@@ -192,6 +194,8 @@ mainPacman.prototype = {
     dogEatsDog: function(pacman, ghost) {
         if (this.isPaused) {
             this.fantasmacomido.play('', 0, 1, false);
+            this.ghostreturn.play('',0,1,false);
+
             this[ghost.name].mode = this[ghost.name].RETURNING_HOME;
             this[ghost.name].ghostDestination = new Phaser.Point(14 * this.tamanhomaze, 14 * this.tamanhomaze);
             this[ghost.name].resetSafeTiles();
