@@ -27,6 +27,7 @@ var mainPacman = function (game) {
     this.playgame = false;
     this.pontuacaomaxima = null;
     this.numerovidas = 1;
+    this.numeroCereja = 1;
     this.vida1 = null;
     this.vida2 = null;
 
@@ -106,7 +107,9 @@ mainPacman.prototype = {
         this.load.image('dot', 'assets/sprites/dot.png');
         this.load.image("pill", "assets/sprites/pill16.png");
         this.load.image('tiles', 'assets/sprites/pacman-tiles.png');
+        this.load.image('bonus', 'assets/sprites/PM_Cherry.png');
         this.load.spritesheet('pacman', 'assets/sprites/pacman.png', 32, 32);
+        this.load.spritesheet('bonussheet', 'assets/sprites/PM_Cherry.png', 32, 32);
         this.load.spritesheet("ghosts", "assets/sprites/ghosts32.png", 32, 32);
 
         this.load.tilemap('map', 'assets/json/pacman-map.json', null, Phaser.Tilemap.TILED_JSON);
@@ -152,8 +155,16 @@ mainPacman.prototype = {
         this.totalfrutos = this.fruto;
 
         this.pilulas = this.add.physicsGroup();
-
         this.numpilulas = this.map.createFromTiles(40, 14, "pill", this.layer, this.pilulas);
+
+        this.bonusgroup = this.add.physicsGroup();
+        this.bonus = this.map.createFromTiles(41, 14, 'bonus', this.layer, this.bonusgroup);
+        this.bonusgroup.visible = false;
+        this.habilitarFruta = false;
+
+
+
+
 
         this.frutos.setAll('x', 6, false, false, 1);
         this.frutos.setAll('y', 6, false, false, 1);
@@ -172,6 +183,9 @@ mainPacman.prototype = {
         this.pacman = new Pacman(this, "pacman");
         this.vida1 = game.add.sprite((14), (17 * 20) + 210, "pacman", 1);
         this.vida2 = game.add.sprite((50), (17 * 20) + 210, "pacman", 1);
+        this.cerejaFruta = game.add.sprite((100)+250, (17 * 20) + 210, "bonussheet", 0);
+
+
         this.vidas.push(this.vida1,this.vida2);
 
 
@@ -188,7 +202,19 @@ mainPacman.prototype = {
         this.pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         this.pauseKey.onDown.add(this.pauseFunction, this);
         this.pauseText.visible = false;
+        this.game.time.events.add(Phaser.Timer.SECOND * 8, this.mostrarFruta, this);
+
     },
+
+    mostrarFruta: function(){
+        if (this.numeroCereja > 0 ) {
+
+            this.cerejaFruta.visible = false;
+            this.bonusgroup.visible = true;
+            this.habilitarFruta = true;
+        }
+
+   },
 
 
     dogEatsDog: function(pacman, ghost) {
