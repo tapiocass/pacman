@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Press+Start+2P);
+
 body{
     padding-left: 0;
     padding-right: 0;
@@ -5,3 +7,174 @@ body{
     display: block;
 	background: #000;
 }
+
+html{
+    background-color:#000;
+    overflow-x:hidden;
+    padding-bottom:142px;
+}
+
+
+.formulario {
+    margin-top: 225px;
+}
+
+#nome {
+    margin-left: 165px;
+    margin-top: 72px;
+    width: 377px
+}
+
+#pontuacao {
+    margin-left: 342px;
+    margin-top: 150px;
+}
+
+.score{
+    margin: 150px 100px;
+}
+
+.tabela{
+    margin-top: 218px;
+    margin-left: 55px;
+    color: #FFF;
+    font: 20px 'Press Start 2P', cursive;
+    position: absolute;
+    text-align: center;
+}
+
+.texto{
+    color: #FFF;
+    font: 20px 'Press Start 2P', cursive;
+
+    position: absolute;
+    text-align: center;
+}
+
+.pacman{
+    margin:40px 10px;
+}
+
+.pacman-top{
+    background-color:yellow;
+    height:70px;
+    width:150px;
+    border-radius:100px 100px 0 0;
+    animation: spin1 0.5s infinite linear;
+}
+
+.pacman-bottom{
+    background-color:yellow;
+    height:70px;
+    width:150px;
+    border-radius:0 0 100px 100px;
+    animation: spin2 0.5s infinite linear;
+}
+
+.feed {
+    margin-top: -145px;
+    margin-left:15px;
+    width: 25px;
+    height: 25px;
+    border-radius: 30%;
+    -moz-animation: eat 1s linear 0s infinite;
+    -webkit-animation: eat 1s linear 0s infinite;
+    animation: eat 1s linear 0s infinite;
+}
+
+/* Animation*/
+
+@keyframes spin1 {
+    0%  {transform: rotate(0deg);}
+    50%{transform: rotate(-35deg);}
+
+}
+@keyframes spin2 {
+    0%  {transform: rotate(0deg);}
+    50%{transform: rotate(35deg);}
+}
+
+@-moz-keyframes spin1 {
+    0%  {transform: rotate(0deg);}
+    50%{transform: rotate(-35deg);}
+
+}
+@-moz-keyframes spin2 {
+    0%  {transform: rotate(0deg);}
+    50%{transform: rotate(35deg);}
+}
+
+@-webkit-keyframes spin1 {
+    0%  {transform: rotate(0deg);}
+    50%{transform: rotate(-35deg);}
+
+}
+@-webkit-keyframes spin2 {
+    0%  {transform: rotate(0deg);}
+    50%{transform: rotate(35deg);}
+}
+
+@keyframes eat {
+    0% { box-shadow:
+            100px 65px 0 0 white,
+            300px 65px 0 0 white,
+            500px 65px 0 0 white,
+            700px 65px 0 0 white,
+            900px 65px 0 0 white,
+            1100px 65px 0 0 white,
+            1300px 65px 0 0 white;}
+
+    100% { box-shadow:
+            0px 65px 0 0 white,
+            100px 65px 0 0 white,
+            300px 65px 0 0 white,
+            500px 65px 0 0 white,
+            700px 65px 0 0 white,
+            900px 65px 0 0 white,
+            1100px 65px 0 0 white;}
+}
+
+
+
+@-moz-keyframes eat {
+    0% { box-shadow:
+            100px 65px 0 0 white,
+            300px 65px 0 0 white,
+            500px 65px 0 0 white,
+            700px 65px 0 0 white,
+            900px 65px 0 0 white,
+            1100px 65px 0 0 white,
+            1300px 65px 0 0 white;}
+
+    100% { box-shadow:
+            0px 65px 0 0 white,
+            100px 65px 0 0 white,
+            300px 65px 0 0 white,
+            500px 65px 0 0 white,
+            700px 65px 0 0 white,
+            900px 65px 0 0 white,
+            1100px 65px 0 0 white;}
+}
+
+
+
+@-webkit-keyframes eat {
+    0% { box-shadow:
+            100px 65px 0 0 white,
+            300px 65px 0 0 white,
+            500px 65px 0 0 white,
+            700px 65px 0 0 white,
+            900px 65px 0 0 white,
+            1100px 65px 0 0 white,
+            1300px 65px 0 0 white;}
+
+    100% { box-shadow:
+            0px 65px 0 0 white,
+            100px 65px 0 0 white,
+            300px 65px 0 0 white,
+            500px 65px 0 0 white,
+            700px 65px 0 0 white,
+            900px 65px 0 0 white,
+            1100px 65px 0 0 white;}
+}
+
