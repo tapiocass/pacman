@@ -142,7 +142,8 @@ mainPacman.prototype = {
         this.recordText = game.add.text(220, 20, this.pontuacao, { fontSize: "18px", fill: "#fff"});
         this.playerone =  game.add.text(145, 220, "PLAYER ONE", { font:"bold 26px Courier",  fill: "#2dddff"});
         this.ready =  game.add.text(190, 320, "READY!", { font:"bold  26px Courier",  fill: "#faff11"});
-
+        this.gameover =  game.add.text(150, 320, "GAME OVER", { font:"bold  26px Courier",  fill: "#ff3400"});
+        this.gameover.visible = false;
         if(localStorage.getItem("highscore") != null){
             this.pontuacaomaxima = localStorage.getItem("highscore");
         }
@@ -280,7 +281,7 @@ mainPacman.prototype = {
             this.game.time.events.add(Phaser.Timer.SECOND * 6, this.deslReady, this);
         } else {
             localStorage.setItem("pontuacao", this.pontuacao);
-
+            this.gameover.visible = true;
             this.game.time.events.add(Phaser.Timer.SECOND * 4, this.chamarScore, this);
         }
     },
