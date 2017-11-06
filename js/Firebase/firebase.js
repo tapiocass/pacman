@@ -12,9 +12,11 @@ firebase.initializeApp(config);
 var database = firebase.database();
 
 function writeRanking(name, score) {
+
+   var scoreint = parseInt(score);
     database.ref('Ranking').push().set({
         name:name,
-        score:score
+        score:  scoreint
     });
 }
 
@@ -39,5 +41,3 @@ function getRanking(){
             createRanking(list);
         });
 }
-
-
