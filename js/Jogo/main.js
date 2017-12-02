@@ -1,4 +1,4 @@
-   var game = new Phaser.Game(448, 600, Phaser.AUTO, "game");
+   var game = new Phaser.Game(1800, 1100, Phaser.AUTO, "game");
 
 var mainPacman = function (game) {
     this.map = null;
@@ -9,7 +9,7 @@ var mainPacman = function (game) {
 
     this.pontuacao = 0;
     this.pontuacaoText = null;
-    this.recordText = null;
+    this.recordText = null;6
     this.pauseText = null;
     this.musicgame = null;
 
@@ -30,6 +30,7 @@ var mainPacman = function (game) {
     this.numeroCereja = 1;
     this.vida1 = null;
     this.vida2 = null;
+    this.pad1 = null;
 
 
     this.SPECIAL_TILES = [
@@ -134,6 +135,7 @@ mainPacman.prototype = {
 
         this.layer = this.map.createLayer('Pacman');
 
+
         //Textos
         this.up = game.add.text(30, 0, "1 UP", { fontSize: "18px", fill: "#fff"});
         this.pontuacaoText = game.add.text(35, 20, this.pontuacao, { fontSize: "18px", fill: "#fff"});
@@ -206,6 +208,10 @@ mainPacman.prototype = {
         this.pauseText.visible = false;
         this.game.time.events.add(Phaser.Timer.SECOND * 8, this.mostrarFruta, this);
 
+        this.game.input.gamepad.start();
+        this.pad1 = this.game.input.gamepad.pad1;
+
+
     },
 
     mostrarFruta: function(){
@@ -246,7 +252,8 @@ mainPacman.prototype = {
     },
 
     movimentaPacman: function () {
-        this.pacman.movimentaPacman(this.cursors);
+        //this.pacman.movimentaPacman(this.cursors);
+       this.pacman.movimentaPacmanJoystick(this.pad1);
 
     },
 
@@ -257,12 +264,6 @@ mainPacman.prototype = {
     killPacman: function() {
         this.pacman.isDead = true;
         this.stopGhosts();
-
-       // if (this.numerovidas < 0  ){
-       //     localStorage.setItem("pontuacao", this.pontuacao);
-       //     window.location = "./gameover.html";
-
-       // }
 
     },
 
@@ -343,7 +344,6 @@ mainPacman.prototype = {
         this.numerovidas--;
 
 
-
         this.pacman.sprite.x = 220;
         this.pacman.sprite.y = 420;
         this.pacman.sprite.play('preparar');
@@ -390,6 +390,12 @@ mainPacman.prototype = {
     },
 
     update: function () {
+
+        if (this.pad1.connected) {
+            console.log("Conectado") ;
+        }else {
+            console.log("Nao conectado");
+        }
 
 
         this.pontuacaoText.text = this.pontuacao;
@@ -471,7 +477,7 @@ mainPacman.prototype = {
           this.pacman.update();
 
         this.movimentaPacman();
-          this.updateGhosts();
+         this.updateGhosts();
 
     },
 

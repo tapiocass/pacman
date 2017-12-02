@@ -149,14 +149,60 @@ Pacman.prototype.movimentaPacman = function(cursors) {
     if (this.game.time.time > this.keyPressTimer || (this.sprite.y === 280 && this.sprite.x < 103 ) || (this.sprite.y === 280 && this.sprite.x > 402 ) )
     {
 
-        this.turning = Phaser.NONE;
-        this.posicao = Phaser.NONE;
+        //this.turning = Phaser.NONE;
+        //this.posicao = Phaser.NONE;
+        this.verificaDirecao(this.posicao);
 
     } else {
 
         this.verificaDirecao(this.posicao);
     }
 };
+
+Pacman.prototype.movimentaPacmanJoystick = function (pad) {
+
+    if (pad.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT)|| pad.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT) || pad.isDown(Phaser.Gamepad.XBOX360_DPAD_UP) || pad.isDown(Phaser.Gamepad.XBOX360_DPAD_DOWN)) {
+        this.keyPressTimer = this.game.time.time + this.KEY_COOLING_DOWN_TIME;
+    }
+
+    if ((pad.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT) || pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1) && this.current !== Phaser.LEFT)
+    {
+        console.log("Esquerda");
+        this.posicao = Phaser.LEFT;
+    }
+    else if ((pad.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT) || pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > 0.1)  && this.current !== Phaser.RIGHT)
+    {
+        console.log("Direita");
+        this.posicao = Phaser.RIGHT;
+    }
+
+    if ((pad.isDown(Phaser.Gamepad.XBOX360_DPAD_UP) || pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y) < -0.1) && this.current !== Phaser.UP)
+    {
+        console.log("Cima");
+        this.posicao = Phaser.UP;
+    }
+    else if ((pad.isDown(Phaser.Gamepad.XBOX360_DPAD_DOWN) || pad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y) > 0.1) && this.current !== Phaser.DOWN)
+    {
+        console.log("Baixo");
+        this.posicao = Phaser.DOWN;
+    }
+
+    if (this.game.time.time > this.keyPressTimer || (this.sprite.y === 280 && this.sprite.x < 103 ) || (this.sprite.y === 280 && this.sprite.x > 402 ) )
+    {
+        //this.turning = Phaser.NONE;
+        //this.posicao = Phaser.NONE;
+        this.verificaDirecao(this.posicao);
+
+    } else {
+
+        this.verificaDirecao(this.posicao);
+    }
+
+
+};
+
+
+
 
 Pacman.prototype.comeFruto = function(pacman, dot) {
 
