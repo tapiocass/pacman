@@ -27,6 +27,8 @@ var Pacman = function(game, key, position_x, position_y) {
     this.KEY_COOLING_DOWN_TIME = 750;
 
 
+
+
     //Cria os pacman's e adiciona em posiçoes diferentes
     // this.sprite = this.game.add.sprite((14 * 16) + 3, (17 * 20) + 85 , key, 0);
     
@@ -131,6 +133,7 @@ Pacman.prototype.update = function() {
 
 };
 
+
 Pacman.prototype.movimentaPacman = function(cursors) {
     if (cursors.left.isDown || cursors.right.isDown || cursors.up.isDown || cursors.down.isDown) {
         this.keyPressTimer = this.game.time.time + this.KEY_COOLING_DOWN_TIME;
@@ -138,6 +141,7 @@ Pacman.prototype.movimentaPacman = function(cursors) {
 
     if (cursors.left.isDown && this.current !== Phaser.LEFT)
     {
+
         this.posicao = Phaser.LEFT;
     }
     else if (cursors.right.isDown && this.current !== Phaser.RIGHT)
@@ -152,6 +156,7 @@ Pacman.prototype.movimentaPacman = function(cursors) {
     {
         this.posicao = Phaser.DOWN;
     }
+
 
     if (this.game.time.time > this.keyPressTimer || (this.sprite.y === 280 && this.sprite.x < 103 ) || (this.sprite.y === 280 && this.sprite.x > 402 ) )
     {
@@ -281,6 +286,7 @@ Pacman.prototype.verificaDirecao = function (turnTo) {
 
     if (this.turning === turnTo || this.direcao[turnTo] === null || this.direcao[turnTo].index !== this.safetile)
     {
+
         return;
     }
 
@@ -292,6 +298,7 @@ Pacman.prototype.verificaDirecao = function (turnTo) {
     }
     else
     {
+
         this.turning = turnTo;
 
         this.turnPoint.x = (this.marker.x * this.tamanhomaze) + (this.tamanhomaze / 2);

@@ -36,6 +36,7 @@ var mainPacman = function (game) {
     this.vida2 = null;
     this.pad1 = null;
 
+    this.nPacman = 4; //Numero de pacmans
 
     this.SPECIAL_TILES = [
         { x: 12, y: 11 },
@@ -91,6 +92,8 @@ var mainPacman = function (game) {
     this.game = game;
     this.ghosts = [];
     this.vidas  = [];
+
+
 };
 
 
@@ -185,21 +188,25 @@ mainPacman.prototype = {
         this.cantodavitoria = this.add.audio('vitoria');
 
 
-        //passo a posicao do pacman
+        //passo a posicao do pacman 
         this.pacman = new Pacman(this, "pacman", (14 * 16) + 3, (17 * 20) + 85);
-        this.pacman1 = new Pacman(this, "pacman", (14 * 16) + 1330, (17 * 20) + 85);
+        this.pacman1 = new Pacman(this, "pacman", 1555, 425);
         this.pacman2 = new Pacman(this, "pacman", (14 * 16) + 3, (17 * 20) + 565);
-        this.pacman2 = new Pacman(this, "pacman", (14 * 16) + 1330, (17 * 20) + 565);
+        this.pacman3 = new Pacman(this, "pacman", (14 * 16) + 1331, (17 * 20) + 565);
 
-        this.vida1 = game.add.sprite((14), (17 * 20) + 210, "pacman", 1);
-        this.vida2 = game.add.sprite((50), (17 * 20) + 210, "pacman", 1);
+    
+        //this.vida1 = game.add.sprite((14), (17 * 20) + 210, "pacman", 1);
+        //this.vida2 = game.add.sprite((50), (17 * 20) + 210, "pacman", 1);
         this.cerejaFruta = game.add.sprite((100)+250, (17 * 20) + 210, "bonussheet", 0);
 
 
-        this.vidas.push(this.vida1,this.vida2);
+        //this.vidas.push(this.vida1,this.vida2);
 
 
         this.pacman.sprite.visible = false;
+        this.pacman1.sprite.visible = false;
+        this.pacman2.sprite.visible = false;
+        this.pacman3.sprite.visible = false;
 
         this.music = this.add.audio('song');
         // this.music.play();
@@ -210,6 +217,13 @@ mainPacman.prototype = {
         this.changeModeTimer = this.time.time + this.TIME_MODES[this.currentMode].time;
         this.cursors = this.input.keyboard.createCursorKeys();
 
+        this.wasd = {
+          up: this.game.input.keyboard.addKey(Phaser.Keyboard.W),
+          down: this.game.input.keyboard.addKey(Phaser.Keyboard.S),
+          left: this.game.input.keyboard.addKey(Phaser.Keyboard.A),
+          right: this.game.input.keyboard.addKey(Phaser.Keyboard.D),
+        };
+
         this.pauseKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         this.pauseKey.onDown.add(this.pauseFunction, this);
         this.pauseText.visible = false;
@@ -217,6 +231,9 @@ mainPacman.prototype = {
 
         this.game.input.gamepad.start();
         this.pad1 = this.game.input.gamepad.pad1;
+        this.pad2 = this.game.input.gamepad.pad2;
+        this.pad3 = this.game.input.gamepad.pad3;
+        this.pad4 = this.game.input.gamepad.pad4;
 
 
     },
@@ -242,7 +259,7 @@ mainPacman.prototype = {
             this[ghost.name].resetSafeTiles();
             this.pontuacao += 10;
         } else {
-           this.killPacman();
+           this.killPacman(pacman);
         }
     },
 
@@ -259,8 +276,13 @@ mainPacman.prototype = {
     },
 
     movimentaPacman: function () {
-        this.pacman.movimentaPacman(this.cursors);
-      // this.pacman.movimentaPacmanJoystick(this.pad1);
+        //this.pacman.movimentaPacman(this.wasd);
+
+        //seta os controles
+        this.pacman.movimentaPacmanJoystick(this.pad1);
+        this.pacman1.movimentaPacmanJoystick(this.pad2);
+        this.pacman2.movimentaPacmanJoystick(this.pad3);
+        this.pacman3.movimentaPacmanJoystick(this.pad4);
 
     },
 
@@ -268,10 +290,37 @@ mainPacman.prototype = {
         this.game.time.events.add(Math.random() * 3000, this.sendExitOrder, this, ghost);
     },
 
-    killPacman: function() {
-        this.pacman.isDead = true;
-        this.stopGhosts();
+    killPacman: function(pacman) {
 
+        //verifica qual pacman foi morto
+
+        if(pacman === this.pacman.sprite){
+            this.pacman.isDead = true;
+            pacman.kill();
+            this.nPacman--;
+
+        }else if(pacman === this.pacman1.sprite){
+            this.pacman1.isDead = true;
+            pacman.kill();
+            this.nPacman--;
+        }
+
+        else if(pacman === this.pacman2.sprite){
+            this.pacman2.isDead = true;
+            pacman.kill();
+            this.nPacman--;
+        }
+
+        else if(pacman === this.pacman3.sprite){
+            this.pacman3.isDead = true;
+            pacman.kill();
+            this.nPacman--;
+        }
+
+        if(this.nPacman <= 0){
+            this.stopGhosts();
+        }
+        //this.pacman.isDead = true;
     },
 
     stopGhosts: function() {
@@ -284,7 +333,7 @@ mainPacman.prototype = {
 
         if (this.numerovidas >=0  ) {
 
-            this.game.time.events.add(Phaser.Timer.SECOND * 4, this.posicionarNoInicio, this);
+            // this.game.time.events.add(Phaser.Timer.SECOND * 4, this.posicionarNoInicio, this);
             this.game.time.events.add(Phaser.Timer.SECOND * 6, this.acordarPacman, this);
             this.game.time.events.add(Phaser.Timer.SECOND * 6, this.deslReady, this);
         } else {
@@ -310,6 +359,9 @@ mainPacman.prototype = {
 
 
         this.pacman.isAnimatingDeath = false;
+        this.pacman1.isAnimatingDeath = false;
+        this.pacman2.isAnimatingDeath = false;
+        this.pacman3.isAnimatingDeath = false;
         // this.musicgame.play('', 0, 1, true);
 
     },
@@ -347,14 +399,19 @@ mainPacman.prototype = {
 
 
 
-        this.vidas[this.numerovidas].visible = false;
+        //this.vidas[this.numerovidas].visible = false;
         this.numerovidas--;
 
 
-        this.pacman.sprite.x = 220;
-        this.pacman.sprite.y = 420;
-        this.pacman.sprite.play('preparar');
-        this.ready.visible = true;
+        // this.pacman.sprite.x = 220;
+        // this.pacman.sprite.y = 420;
+        // this.pacman.sprite.play('preparar');
+
+
+        // this.pacman1.sprite.x = 1555;
+        // this.pacman1.sprite.y = 425;
+        // this.pacman1.sprite.play('preparar');
+        // this.ready.visible = true;
 
         this.game.time.events.add(Phaser.Timer.SECOND*2, this.libertaFantasmas, this);
 
@@ -368,12 +425,18 @@ mainPacman.prototype = {
         this.clyde = new Ghost(this, "ghosts", "clyde", {x:12, y:17}, Phaser.LEFT);
         this.inky = new Ghost(this, "ghosts", "inky", {x:16, y:17}, Phaser.LEFT);
         this.pacman.sprite.visible = true;
+        this.pacman1.sprite.visible = true;
+        this.pacman2.sprite.visible = true;
+        this.pacman3.sprite.visible = true;
         this.ghosts.push(this.blinky,this.pinky,this.clyde, this.inky);
 
     },
 
     acordarPacman: function () {
         this.pacman.isDead = false;
+        this.pacman1.isDead = false;
+        this.pacman2.isDead = false;
+        this.pacman3.isDead = false;
     },
 
     jogar: function() {
@@ -398,11 +461,11 @@ mainPacman.prototype = {
 
     update: function () {
 
-        if (this.pad1.connected) {
-            console.log("Conectado") ;
-        }else {
-            console.log("Nao conectado");
-        }
+    //    if (this.pad1.connected) {
+     //       console.log("Conectado") ;
+       // }else {
+      //      console.log("Nao conectado");
+        //}
 
 
         this.pontuacaoText.text = this.pontuacao;
@@ -432,10 +495,13 @@ mainPacman.prototype = {
             this.up.visible = !this.up.visible;
         }
 
-        if (!this.pacman.isDead) {
+        if (!this.pacman.isDead || !this.pacman1.isDead || !this.pacman2.isDead || !this.pacman3.isDead) {
             for (var i=0; i<this.ghosts.length; i++) {
                 if (this.ghosts[i].mode !== this.ghosts[i].RETURNING_HOME) {
                     this.physics.arcade.overlap(this.pacman.sprite, this.ghosts[i].ghost, this.dogEatsDog, null, this);
+                    this.physics.arcade.overlap(this.pacman1.sprite, this.ghosts[i].ghost, this.dogEatsDog, null, this);
+                    this.physics.arcade.overlap(this.pacman2.sprite, this.ghosts[i].ghost, this.dogEatsDog, null, this);
+                    this.physics.arcade.overlap(this.pacman3.sprite, this.ghosts[i].ghost, this.dogEatsDog, null, this);
                 }
             }
 
@@ -450,7 +516,7 @@ mainPacman.prototype = {
                 this.sendExitOrder(this.clyde);
             }
 
-            if (this.changeModeTimer !== -1 && !this.isPaused && this.changeModeTimer < this.time.time && !this.pacman.isDead ) {
+            if (this.changeModeTimer !== -1 && !this.isPaused && this.changeModeTimer < this.time.time && !this.pacman.isDead && !this.pacman1.isDead && !this.pacman2.isDead && !this.pacman3.isDead) {
                 this.currentMode++;
                 this.changeModeTimer = this.time.time + this.TIME_MODES[this.currentMode].time;
                 if (this.TIME_MODES[this.currentMode].mode === "chase") {
@@ -481,10 +547,13 @@ mainPacman.prototype = {
             }
         }
 
-          this.pacman.update();
+        this.pacman.update();
+        this.pacman1.update();
+        this.pacman2.update();
+        this.pacman3.update();
 
         this.movimentaPacman();
-         this.updateGhosts();
+        this.updateGhosts();
 
     },
 
