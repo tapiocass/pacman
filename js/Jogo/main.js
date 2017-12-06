@@ -14,6 +14,10 @@ var mainPacman = function (game) {
     this.musicgame = null;
 
     this.pacman = null;
+    this.pacman1 = null;
+    this.pacman2 = null;
+    this.pacman3 = null;
+
     this.clyde = null;
     this.pinky = null;
     this.blinky = null;
@@ -109,12 +113,13 @@ mainPacman.prototype = {
         this.load.image("pill", "assets/sprites/pill16.png");
         this.load.image('tiles', 'assets/sprites/pacman-tiles.png');
         this.load.image('bonus', 'assets/sprites/PM_Cherry.png');
+
         this.load.spritesheet('pacman', 'assets/sprites/pacman.png', 32, 32);
+        this.load.spritesheet('pacman1', 'assets/sprites/pacman.png', 32, 32)
+
         this.load.spritesheet('bonussheet', 'assets/sprites/PM_Cherry.png', 32, 32);
         this.load.spritesheet("ghosts", "assets/sprites/ghosts32.png", 32, 32);
-
         this.load.tilemap('map', 'assets/json/pacman-map.json', null, Phaser.Tilemap.TILED_JSON);
-
         this.load.audio('song', ['assets/sounds/pacman_beginning.wav']);
         this.load.audio('siren', ['assets/sounds/pacman_siren.mp3']);
         this.load.audio('munch', ['assets/sounds/pacman-munch.wav']);
@@ -165,10 +170,6 @@ mainPacman.prototype = {
         this.bonusgroup.visible = false;
         this.habilitarFruta = false;
 
-
-
-
-
         this.frutos.setAll('x', 6, false, false, 1);
         this.frutos.setAll('y', 6, false, false, 1);
 
@@ -184,7 +185,12 @@ mainPacman.prototype = {
         this.cantodavitoria = this.add.audio('vitoria');
 
 
-        this.pacman = new Pacman(this, "pacman");
+        //passo a posicao do pacman
+        this.pacman = new Pacman(this, "pacman", (14 * 16) + 3, (17 * 20) + 85);
+        this.pacman1 = new Pacman(this, "pacman", (14 * 16) + 1330, (17 * 20) + 85);
+        this.pacman2 = new Pacman(this, "pacman", (14 * 16) + 3, (17 * 20) + 565);
+        this.pacman2 = new Pacman(this, "pacman", (14 * 16) + 1330, (17 * 20) + 565);
+
         this.vida1 = game.add.sprite((14), (17 * 20) + 210, "pacman", 1);
         this.vida2 = game.add.sprite((50), (17 * 20) + 210, "pacman", 1);
         this.cerejaFruta = game.add.sprite((100)+250, (17 * 20) + 210, "bonussheet", 0);
@@ -196,7 +202,8 @@ mainPacman.prototype = {
         this.pacman.sprite.visible = false;
 
         this.music = this.add.audio('song');
-        this.music.play();
+        // this.music.play();
+
 
         this.musicgame = this.add.audio('siren');
 
@@ -252,8 +259,8 @@ mainPacman.prototype = {
     },
 
     movimentaPacman: function () {
-        //this.pacman.movimentaPacman(this.cursors);
-       this.pacman.movimentaPacmanJoystick(this.pad1);
+        this.pacman.movimentaPacman(this.cursors);
+      // this.pacman.movimentaPacmanJoystick(this.pad1);
 
     },
 
@@ -303,7 +310,7 @@ mainPacman.prototype = {
 
 
         this.pacman.isAnimatingDeath = false;
-        this.musicgame.play('', 0, 1, true);
+        // this.musicgame.play('', 0, 1, true);
 
     },
 
@@ -373,7 +380,7 @@ mainPacman.prototype = {
         this.blinky.mode = "scatter";
         this.playgame = true;
         this.sendExitOrder(this.pinky);
-        this.musicgame.play('', 0, 0.4, true);
+        //this.musicgame.play('', 0, 0.4, true);
     },
 
     deslPlayerOne: function () {

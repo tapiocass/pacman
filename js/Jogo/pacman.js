@@ -1,6 +1,8 @@
-var Pacman = function(game, key) {
+var Pacman = function(game, key, position_x, position_y) {
     this.game = game;
     this.key = key;
+    this.position_x = position_x;
+    this.position_y = position_y;
 
     this.forca = 160;
     this.isDead = false;
@@ -24,7 +26,12 @@ var Pacman = function(game, key) {
     this.keyPressTimer = 0;
     this.KEY_COOLING_DOWN_TIME = 750;
 
-    this.sprite = this.game.add.sprite((14 * 16) + 3, (17 * 20) + 85, key, 0);
+
+    //Cria os pacman's e adiciona em posiçoes diferentes
+    // this.sprite = this.game.add.sprite((14 * 16) + 3, (17 * 20) + 85 , key, 0);
+    
+    this.sprite = this.game.add.sprite(position_x, position_y , key, 0);
+
     this.sprite.anchor.setTo(0.5);
     this.sprite.animations.add('munch', [0, 1, 2, 1], 20, true);
     this.sprite.animations.add('preparar', [2], 20, true);
